@@ -1262,3 +1262,62 @@
 	"globals.h"
 	"MCEditor.h"
 
+1645406233 source:d:\caves\src\functions.cpp
+	<stdio.h>
+	<windows.h>
+	<sys/stat.h>
+
+1612527161 source:d:\caves\src\mceditor\globals.cpp
+	"globals.h"
+	"zlib.h"
+
+1582634642 d:\caves\src\mceditor\globals.h
+	<string>
+	<cstring>
+	<algorithm>
+
+1614462657 source:d:\caves\src\mceditor\mcacoder.cpp
+	"MCACoder.h"
+	<cstring>
+	<cstdlib>
+	<queue>
+	<algorithm>
+	"globals.h"
+
+1611697199 d:\caves\src\mceditor\mcacoder.h
+	<string>
+	<cstdlib>
+	"NBTCoder.h"
+	"BlockEntity.h"
+
+1594083669 d:\caves\src\mceditor\nbtcoder.h
+	<cstdio>
+	<vector>
+	<list>
+	<string>
+	<algorithm>
+	<cstring>
+	"globals.h"
+
+1593449976 d:\caves\src\mceditor\blockentity.h
+	<string>
+	"globals.h"
+
+1645413042 source:d:\caves\src\mceditor\mceditor.cpp
+	"MCEditor.h"
+	<vector>
+	<algorithm>
+	<queue>
+	<utility>
+	<set>
+	<cstring>
+	"globals.h"
+
+1611581327 d:\caves\src\mceditor\mceditor.h
+	"globals.h"
+	"MCACoder.h"
+	"BlockEntity.h"
+
+1594083666 source:d:\caves\src\mceditor\nbtcoder.cpp
+	"NBTCoder.h"
+
