@@ -1,0 +1,124 @@
+#fill ~-1 ~-1 ~-1 ~1 ~-1 ~1 repeating_command_block 0 keep {Command:"/function exxabite:water",auto:1b}
+#fill ~-1 ~-1 ~-1 ~1 ~-1 ~1 planks 0 replace air 0
+#fill ~-1 ~-1 ~-1 ~1 ~-1 ~1 air 0 replace glowstone 0
+#fill ~-1 ~-1 ~-1 ~1 ~-1 ~1 air 0 replace stone 0
+#fill ~-1 ~-1 ~-1 ~1 ~-1 ~1 air 0 replace concrete
+#fill ~-1 ~-1 ~-1 ~1 ~-1 ~1 air 0 replace stone 1
+#fill ~-1 ~-1 ~-1 ~1 ~-1 ~1 air 0 replace stone 3
+#fill ~-1 ~-1 ~-1 ~1 ~-1 ~1 air 0 replace gravel 0
+#fill ~-1 ~-1 ~-1 ~1 ~-1 ~1 air 0 replace stone 5
+#fill ~-1 ~-1 ~-1 ~1 ~-1 ~1 air 0 replace dirt 0
+#fill ~-1 ~-1 ~-1 ~1 ~-1 ~1 repeating_command_block 0 keep {Command:"/function exxabite:water2",auto:1b}
+#fill ~-1 ~-1 ~-1 ~1 ~-1 ~1 air 0 replace planks 0
+
+ fill ~-1 ~-1 ~ ~-1 ~-1 ~ repeating_command_block 0 keep {Command:"/function exxabite:water",auto:1b}
+ fill ~-1 ~-1 ~ ~-1 ~-1 ~ planks 0 replace air 0
+#fill ~-1 ~-1 ~ ~-1 ~-1 ~ air 0 replace glowstone 0
+#fill ~-1 ~-1 ~ ~-1 ~-1 ~ air 0 replace stone 0
+ fill ~-1 ~-1 ~ ~-1 ~-1 ~ air 0 replace concrete
+#fill ~-1 ~-1 ~ ~-1 ~-1 ~ air 0 replace stone 1
+#fill ~-1 ~-1 ~ ~-1 ~-1 ~ air 0 replace stone 3
+#fill ~-1 ~-1 ~ ~-1 ~-1 ~ air 0 replace gravel 0
+#fill ~-1 ~-1 ~ ~-1 ~-1 ~ air 0 replace stone 5
+#fill ~-1 ~-1 ~ ~-1 ~-1 ~ air 0 replace dirt 0
+ fill ~-1 ~-1 ~ ~-1 ~-1 ~ repeating_command_block 0 keep {Command:"/function exxabite:water2",auto:1b}
+ fill ~-1 ~-1 ~ ~-1 ~-1 ~ air 0 replace planks 0
+
+ fill ~1 ~-1 ~ ~1 ~-1 ~ repeating_command_block 0 keep {Command:"/function exxabite:water",auto:1b}
+ fill ~1 ~-1 ~ ~1 ~-1 ~ planks 0 replace air 0
+#fill ~1 ~-1 ~ ~1 ~-1 ~ air 0 replace glowstone 0
+#fill ~1 ~-1 ~ ~1 ~-1 ~ air 0 replace stone 0
+ fill ~1 ~-1 ~ ~1 ~-1 ~ air 0 replace concrete
+#fill ~1 ~-1 ~ ~1 ~-1 ~ air 0 replace stone 1
+#fill ~1 ~-1 ~ ~1 ~-1 ~ air 0 replace stone 3
+#fill ~1 ~-1 ~ ~1 ~-1 ~ air 0 replace gravel 0
+#fill ~1 ~-1 ~ ~1 ~-1 ~ air 0 replace stone 5
+#fill ~1 ~-1 ~ ~1 ~-1 ~ air 0 replace dirt 0
+ fill ~1 ~-1 ~ ~1 ~-1 ~ repeating_command_block 0 keep {Command:"/function exxabite:water2",auto:1b}
+ fill ~1 ~-1 ~ ~1 ~-1 ~ air 0 replace planks 0
+
+ fill ~ ~-1 ~-1 ~ ~-1 ~-1 repeating_command_block 0 keep {Command:"/function exxabite:water",auto:1b}
+ fill ~ ~-1 ~-1 ~ ~-1 ~-1 planks 0 replace air 0
+#fill ~ ~-1 ~-1 ~ ~-1 ~-1 air 0 replace glowstone 0
+#fill ~ ~-1 ~-1 ~ ~-1 ~-1 air 0 replace stone 0
+ fill ~ ~-1 ~-1 ~ ~-1 ~-1 air 0 replace concrete
+#fill ~ ~-1 ~-1 ~ ~-1 ~-1 air 0 replace stone 1
+#fill ~ ~-1 ~-1 ~ ~-1 ~-1 air 0 replace stone 3
+#fill ~ ~-1 ~-1 ~ ~-1 ~-1 air 0 replace gravel 0
+#fill ~ ~-1 ~-1 ~ ~-1 ~-1 air 0 replace stone 5
+#fill ~ ~-1 ~-1 ~ ~-1 ~-1 air 0 replace dirt 0
+ fill ~ ~-1 ~-1 ~ ~-1 ~-1 repeating_command_block 0 keep {Command:"/function exxabite:water2",auto:1b}
+ fill ~ ~-1 ~-1 ~ ~-1 ~-1 air 0 replace planks 0
+
+ fill ~ ~-1 ~1 ~ ~-1 ~1 repeating_command_block 0 keep {Command:"/function exxabite:water",auto:1b}
+ fill ~ ~-1 ~1 ~ ~-1 ~1 planks 0 replace air 0
+#fill ~ ~-1 ~1 ~ ~-1 ~1 air 0 replace glowstone 0
+#fill ~ ~-1 ~1 ~ ~-1 ~1 air 0 replace stone 0
+ fill ~ ~-1 ~1 ~ ~-1 ~1 air 0 replace concrete
+#fill ~ ~-1 ~1 ~ ~-1 ~1 air 0 replace stone 1
+#fill ~ ~-1 ~1 ~ ~-1 ~1 air 0 replace stone 3
+#fill ~ ~-1 ~1 ~ ~-1 ~1 air 0 replace gravel 0
+#fill ~ ~-1 ~1 ~ ~-1 ~1 air 0 replace stone 5
+#fill ~ ~-1 ~1 ~ ~-1 ~1 air 0 replace dirt 0
+ fill ~ ~-1 ~1 ~ ~-1 ~1 repeating_command_block 0 keep {Command:"/function exxabite:water2",auto:1b}
+ fill ~ ~-1 ~1 ~ ~-1 ~1 air 0 replace planks 0
+
+#fill ~-10 ~-1 ~ ~-10 ~-1 ~ repeating_command_block 0 keep {Command:"/function exxabite:water",auto:1b}
+#fill ~10 ~-1 ~ ~10 ~-1 ~ repeating_command_block 0 keep {Command:"/function exxabite:water",auto:1b}
+#fill ~ ~-1 ~-10 ~ ~-1 ~-10 repeating_command_block 0 keep {Command:"/function exxabite:water",auto:1b}
+#fill ~ ~-1 ~10 ~ ~-1 ~10 repeating_command_block 0 keep {Command:"/function exxabite:water",auto:1b}
+
+#fill ~-20 ~-1 ~ ~-20 ~-1 ~ repeating_command_block 0 keep {Command:"/function exxabite:water",auto:1b}
+#fill ~-20 ~-1 ~ ~-20 ~-1 ~ planks 0 replace air 0
+#fill ~-20 ~-1 ~ ~-20 ~-1 ~ air 0 replace glowstone 0
+#fill ~-20 ~-1 ~ ~-20 ~-1 ~ air 0 replace stone 0
+#fill ~-20 ~-1 ~ ~-20 ~-1 ~ air 0 replace concrete
+#fill ~-20 ~-1 ~ ~-20 ~-1 ~ air 0 replace stone 1
+#fill ~-20 ~-1 ~ ~-20 ~-1 ~ air 0 replace stone 3
+#fill ~-20 ~-1 ~ ~-20 ~-1 ~ air 0 replace gravel 0
+#fill ~-20 ~-1 ~ ~-20 ~-1 ~ air 0 replace stone 5
+#fill ~-20 ~-1 ~ ~-20 ~-1 ~ air 0 replace dirt 0
+#fill ~-20 ~-1 ~ ~-20 ~-1 ~ repeating_command_block 0 keep {Command:"/function exxabite:water2",auto:1b}
+#fill ~-20 ~-1 ~ ~-20 ~-1 ~ air 0 replace planks 0
+#
+#fill ~15 ~-1 ~ ~15 ~-1 ~ repeating_command_block 0 keep {Command:"/function exxabite:water",auto:1b}
+#fill ~15 ~-1 ~ ~15 ~-1 ~ planks 0 replace air 0
+#fill ~15 ~-1 ~ ~15 ~-1 ~ air 0 replace glowstone 0
+#fill ~15 ~-1 ~ ~15 ~-1 ~ air 0 replace stone 0
+#fill ~15 ~-1 ~ ~15 ~-1 ~ air 0 replace concrete
+#fill ~15 ~-1 ~ ~15 ~-1 ~ air 0 replace stone 1
+#fill ~15 ~-1 ~ ~15 ~-1 ~ air 0 replace stone 3
+#fill ~15 ~-1 ~ ~15 ~-1 ~ air 0 replace gravel 0
+#fill ~15 ~-1 ~ ~15 ~-1 ~ air 0 replace stone 5
+#fill ~15 ~-1 ~ ~15 ~-1 ~ air 0 replace dirt 0
+#fill ~15 ~-1 ~ ~15 ~-1 ~ repeating_command_block 0 keep {Command:"/function exxabite:water2",auto:1b}
+#fill ~15 ~-1 ~ ~15 ~-1 ~ air 0 replace planks 0
+#
+#fill ~ ~-1 ~-25 ~ ~-1 ~-25 repeating_command_block 0 keep {Command:"/function exxabite:water",auto:1b}
+#fill ~ ~-1 ~-25 ~ ~-1 ~-25 planks 0 replace air 0
+#fill ~ ~-1 ~-25 ~ ~-1 ~-25 air 0 replace glowstone 0
+#fill ~ ~-1 ~-25 ~ ~-1 ~-25 air 0 replace stone 0
+#fill ~ ~-1 ~-25 ~ ~-1 ~-25 air 0 replace concrete
+#fill ~ ~-1 ~-25 ~ ~-1 ~-25 air 0 replace stone 1
+#fill ~ ~-1 ~-25 ~ ~-1 ~-25 air 0 replace stone 3
+#fill ~ ~-1 ~-25 ~ ~-1 ~-25 air 0 replace gravel 0
+#fill ~ ~-1 ~-25 ~ ~-1 ~-25 air 0 replace stone 5
+#fill ~ ~-1 ~-25 ~ ~-1 ~-25 air 0 replace dirt 0
+#fill ~ ~-1 ~-25 ~ ~-1 ~-25 repeating_command_block 0 keep {Command:"/function exxabite:water2",auto:1b}
+#fill ~ ~-1 ~-25 ~ ~-1 ~-25 air 0 replace planks 0
+#
+#fill ~ ~-1 ~10 ~1 ~-1 ~10repeating_command_block 0 keep {Command:"/function exxabite:water",auto:1b}
+#fill ~ ~-1 ~10 ~1 ~-1 ~10planks 0 replace air 0
+#fill ~ ~-1 ~10 ~1 ~-1 ~10air 0 replace glowstone 0
+#fill ~ ~-1 ~10 ~1 ~-1 ~10air 0 replace stone 0
+#fill ~ ~-1 ~10 ~1 ~-1 ~10air 0 replace concrete
+#fill ~ ~-1 ~10 ~1 ~-1 ~10air 0 replace stone 1
+#fill ~ ~-1 ~10 ~1 ~-1 ~10air 0 replace stone 3
+#fill ~ ~-1 ~10 ~1 ~-1 ~10air 0 replace gravel 0
+#fill ~ ~-1 ~10 ~1 ~-1 ~10air 0 replace stone 5
+#fill ~ ~-1 ~10 ~1 ~-1 ~10air 0 replace dirt 0
+#fill ~ ~-1 ~10 ~1 ~-1 ~10repeating_command_block 0 keep {Command:"/function exxabite:water2",auto:1b}
+#fill ~ ~-1 ~10 ~1 ~-1 ~10air 0 replace planks 0
+
+setblock ~ ~ ~ water 0 replace repeating_command_block
+
