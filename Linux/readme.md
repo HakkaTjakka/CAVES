@@ -48,9 +48,9 @@ When installing a server under Linux with the forge-1.18.1-39.0.79-installer.jar
 ***
 Tip: If you want to play on a (local) server, while only having one account, you can do the following:
 
-1) Disconnect the computer from the internet, by pulling the cable or shutting it of in the os.
+1) Disconnect the computer from the internet, by pulling the cable or shutting it off in the os.
 
-2) Edit the launcher_accounts.json file (in windows in %appdata%\.minecraft) or in Ubuntu in your .minecraft dir in home.
+2) Edit the launcher_accounts.json file (in windows in %appdata%\.minecraft) or in Ubuntu in your .minecraft dir in home. Change the name, don't use spaces but underscore if needed.
 
 3) Then start the Minecraft launcher, it will say you only can play offline. Start. You now are under a different name, so you can log into the server with multiple players, all with different names, otherwise the server disconnects same names...
 
@@ -59,8 +59,8 @@ Tip: If you want to play on a (local) server, while only having one account, you
 Also don't forget to set the online-mode=false in the server.properties besides the usual stuff like ip address etc.
 
 Also when playing with people outside your home network you need to port forward your router, with the ip the server is on and the port its using. Tip: If it won't work probably ranges from other port forwards overlap yours.
-Then you also need to provider your external ip instead of the internal.
+Then you also need to provide your external ip instead of the internal to other players.
 ***
-
+Have fun!
 
 
