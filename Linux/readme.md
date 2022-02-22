@@ -50,7 +50,7 @@ Tip: If you want to play on a (local) server, with more players, while only havi
 
 1) Disconnect the computer from the internet, by pulling the cable or shutting it off in the os.
 
-2) Edit the launcher_accounts.json file (in windows in %appdata%\.minecraft) or in Ubuntu in your .minecraft dir in home. Change the name, don't use spaces but underscore if needed.
+2) Edit the launcher_accounts.json file (in windows in %appdata%/.minecraft) or in Ubuntu in your .minecraft dir in home. Change the name, don't use spaces but underscore if needed.
 
 3) Then start the Minecraft launcher, it will say you only can play offline. Start. You now are under a different name, so you can log into the server with multiple players, all with different names, otherwise the server disconnects same names...
 
