@@ -65,7 +65,7 @@ I've made some repo's where this code is used, and adapted it for some speed. I'
 
 My goal is to create some advanced Minecraft world generating platform including the following (90% of it already works in the MinecraftWorldEditor, but you need assistance to operate it).
 
-A voxelizer that can convert Wavefront 3d objects into Minecraft 1.12.2 region files. This way whole of Holland is converted from Google Earth 3d (with a node.js downloading tool also on GitHub) into Build The Earth 121 projecting. Converting it into 'stacked' region files that can be combined with Converter.jar (also on GitHub) into Cubic Chunks format (1.12.2).
+A voxelizer that can convert Wavefront 3d objects into Minecraft 1.12.2 region files. This way whole of Holland is converted from Google Earth 3d (with a node.js downloading tool also on GitHub) into Build The Earth 121 projection. Converting it into 'stacked' region files that can be combined with Converter.jar (also on GitHub) into Cubic Chunks format (1.12.2).
 3d objects can be loaded, real time animated, ffmpeg recorded, with interpolated camera positions, converted into large scale posters in different projections (like whole cities in orthographic projection like 30 x 15 meters), and converted into voxels. One or many 3d objects can that way be the source for Minecraft.
 
 (closed) 3d objects can be made solid with the lighting algorithm, and/or using outside/outside of the triangles.
