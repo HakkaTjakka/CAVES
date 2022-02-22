@@ -57,7 +57,7 @@ If you get errors, or this manual is not working like it pretends, plz report th
 ***
 # Suggestions needed!!!
 
-Goal is to set up a platform where worlds can by easily created from 2d drawings, 3d objects, code, commandblocks, .mcfunctions etc. With an easy to use interface. Any help is appreciated. Nice would be a saving to .nbt in the new 1.13+ structure (now 1.12.2)
+Goal is to set up a platform where worlds can by easily created from 2d drawings, 3d objects (voxelizer is working, whole Holland was converted that way from Google 3d Earth into Minecraft BTE121 projection), code, commandblocks, .mcfunctions etc. With an easy to use interface. Any help is appreciated. Nice would be a saving to .nbt in the new 1.13+ structure (now 1.12.2)
 ***
           
 ![clipboard_small](https://github.com/HakkaTjakka/CAVES/blob/main/Minecraft/screenshots/2022-02-21_06.05.15.jpg)
