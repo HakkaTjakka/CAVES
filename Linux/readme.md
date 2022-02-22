@@ -46,7 +46,7 @@ g++ -o ../caves cave.o functions.o globals.o MCACoder.o MCEditor.o NBTCoder.o -s
 ***
 When installing a server under Linux with the forge-1.18.1-39.0.79-installer.jar file from CAVES/Minecraft/1.18.1/installers i included my server.properties file and user_jvm_args.txt and run.sh
 ***
-Tip: If you want to play on a (local) server, while only having one account, you can do the following:
+Tip: If you want to play on a (local) server, with more players, while only having one account, you can do the following:
 
 1) Disconnect the computer from the internet, by pulling the cable or shutting it off in the os.
 
