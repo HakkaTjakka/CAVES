@@ -34,7 +34,30 @@ Point Settings->Compiler->Toolchain executables to <DRIVELETTER>\:<PATH_TO>\CAVE
 # Forge Server 1.18.1 on 83.83.222.154
 
 (https://github.com/HakkaTjakka/CAVES/blob/main/Minecraft/1.18.1/installers/forge-1.18.1-39.0.79-installer.jar)
-            
+
+***
+Tip: If you want to play on a (local) server, with more players, while only having one account, you can do the following:
+
+1) Disconnect the computer from the internet, by pulling the cable or shutting it off in the os.
+
+2) Edit the launcher_accounts.json file (in windows in %appdata%\.minecraft) or in Ubuntu in your .minecraft dir in home. Change the name, don't use spaces but underscore if needed.
+
+3) Then start the Minecraft launcher, it will say you only can play offline. Start. You now are under a different name, so you can log into the server with multiple players, all with different names, otherwise the server disconnects same names...
+
+4) Of course reconnect to the net.
+
+Also don't forget to set the online-mode=false in the server.properties besides the usual stuff like ip address etc.
+
+Also when playing with people outside your home network you need to port forward your router, with the ip the server is on and the port its using. Tip: If it won't work probably ranges from other port forwards overlap yours.
+Then you also need to provide your external ip instead of the internal to other players.
+***
+# Have fun!
+***
+If you get errors, or this manual is not working like it pretends, plz report then we can adjust it with more information. Also when having suggestions or made some changes or code yourself with this repo, please make issue a notice and share. This is just one example on how to create whole Minecraft worlds (you can stack them with Cubic Chunks eventually) in a simple way. In the MCEditor directory you can find a file called test.cpp, music.cpp, and paint.cpp giving more examples on how to build region files from scratch, like include music systems, and multiple command command blocks, like used in my other Minecraft world repo's. Like how to build Gray coded ordered commandblocks with multiple commands in domino effect style. In combination with .mcfunctions you could make code where like whole castles just pop out of the command blocks or .mcfunctions.
+***
+Goal is to set up a platform where worlds can by easily created from 2d drawings, 3d objects, code, commandblocks, .mcfunctions etc. With an easy to use interface. Any help is appreciated. Nice would be a saving to .nbt in the new 1.13+ structure (now 1.12.2)
+***
+          
 ![clipboard_small](https://github.com/HakkaTjakka/CAVES/blob/main/Minecraft/screenshots/2022-02-21_06.05.15.jpg)
 ![clipboard_small](https://github.com/HakkaTjakka/CAVES/blob/main/Minecraft/screenshots/2022-02-21_06.25.01.jpg)
 ![clipboard_small](https://github.com/HakkaTjakka/CAVES/blob/main/Minecraft/screenshots/2022-02-21_06.26.13.jpg)
