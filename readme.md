@@ -59,7 +59,86 @@ If you get errors, or this manual is not working like it pretends, plz report th
 
 Goal is to set up a platform where worlds can by easily created from 2d drawings, 3d objects (voxelizer is working, whole Holland was converted that way from Google 3d Earth into Minecraft BTE121 projection), code, commandblocks, .mcfunctions etc. With an easy to use interface. Any help is appreciated. Nice would be a saving to .nbt in the new 1.13+ structure (now 1.12.2)
 ***
-          
+On MCEditor: https://github.com/mingl0280/MCEditor
+
+I've made some repo's where this code is used, and adapted it for some speed. I've made a (preliminary experimental prototyping program) named MinecraftWorldEditor. It is so called junk code, but the mechanisms work. For neat tiny version that used this (adapted) MCEditor code i'v made a new repo called 'caves', to show how it works in simple code.
+
+My goal is to create some advanced Minecraft world generating platform including the following (90% of it already works in the MinecraftWorldEditor, but you need assistance to operate it).
+
+A voxelizer that can convert Wavefront 3d objects into Minecraft 1.12.2 region files. This way whole of Holland is converted from Google Earth 3d (with a node.js downloading tool also on GitHub) into Build The Earth 121 projecting. Converting it into 'stacked' region files that can be combined with Converter.jar (also on GitHub) into Cubic Chunks format (1.12.2).
+3d objects can be loaded, real time animated, ffmpeg recorded, with interpolated camera positions, converted into large scale posters in different projections (like whole cities in orthographic projection like 30 x 15 meters), and converted into voxels. One or many 3d objects can that way be the source for Minecraft.
+
+(closed) 3d objects can be made solid with the lighting algorithm, and/or using outside/outside of the triangles.
+
+Also 2d drawings (program contains canvas with like 200 times 200 hd screens for scrolling and drawings) can be the source, like with use of a 3d maze generator.
+
+With c/c++ code everything can be adapted / changed / calculated, and be converted into (for now) 1.12.2 region files. There can be multiple command commandblocks, containing hundreds of functions, and they also can be cascaded like domino's. So you can use 2d, 3d, and code to create almost anything.
+
+Conversion of Minecraft data / voxels into Wavefront 3d files, that then can be loaded and animated again. It works through shaders. I'm working on a shader (geometry) where only the cube data is used as a voxel (one 3d point) and all necessary sides for rendering are being created in GPU.
+
+Creating large posters on the large canvas out of whole Minecraft worlds with use of these shaders. (to do)
+
+Creating an editor (2d/3d) for interactive building Minecraft worlds in 2d/3d, with use of 2d and 3d objects/data, and code, for high speed world generating. Eventually also using shaders to process data very fast. Shaders mostly are used to generate 2d drawings, but multiple 2d can be stacked to create 3d voxel data for worlds. Also 3d processing and generating can be done to produce voxel data in high speed.
+
+There is an option for a build in Minecraft (1.12.2) server (Cuberite, also on GitHub) in the MinecraftWorldEditor that can be used for on the fly displaying generated region files in the game.
+
+Voxel / region file data can be stored with the MCEditor for region files, in voxel files, or any other format. A secondary .nbt (Named Binary Tags) editor (also on GitHub by IDidMakeThat, adapted, speed up, and debugged, no memory leaks anymore...) that can be used for reading/writing encoding/decoding .nbt files. In where region files are stored, but they also can contain any other data. Like i'm using it to store the Wavefront 3d data into it, where only the data is present that is loaded into the gpu, after reading the Wavefront files, for compression and speed. That way i stored the whole of Holland from Google 3d. Also voxel data can be stored as pictures by slicing 3d voxel data up, and store them like a video with ffmpeg. Also for compression. Whole worlds can be stored that way as a video with compression (lossless), in several formats.
+
+Use and generation of .mcfunction files to provide in game recursive command blocks for like fill things up (like water), or blow everything apart with tnt (with xplosives mod).
+
+Like said the MinecraftWorldEditor is a preliminary experimental prototyping program, where all this code is inside (c/c++) one big executable, and is difficult to handle. There are some short manuals.
+
+Aim of the game is to rewrite the whole system into a manageable system, where everything will be connected to a format everybody can use. Providing the use of all possibilities. The program can be the base of a new system, where all sorts of data can be used to generate and/or operate large scale worlds (Cubic Chunks Holland BTE121 projection is about 43.000 square km and 2 Terrabyte in size, and was downloaded from Google 3d, converted, and uploaded in two formats simultaneously in about 6 months).
+
+Here are some examples of repo's made with the MCEditor code and MinecraftWorldEditor program:
+
+Video's:
+
+https://www.youtube.com/channel/UCdmRlIxcrXmkC7puY4s9Jzg
+
+https://www.facebook.com/MinecraftWorldEditor/
+
+Repo's:
+
+https://github.com/HakkaTjakka/CAVES (Simplified MCEditor usage generating caves with tunnels filled with tnt)
+
+https://github.com/HakkaTjakka/AQUAWORLD (World with aquariums that are (1.13+) filled with fish and coral with multiple command commandblocks under the level that are triggered as domino's in cascade)
+
+https://github.com/HakkaTjakka/HOLLAND_BTE121_CUBIC_1 (Whole of The Netherlands in BTE121 projection in Cubic Chunks format, converted from Google 3d Earth into voxels into 1.12.2 region files in floors)
+
+https://github.com/HakkaTjakka/MinecraftWorldEditor (Program that does the trick(s), lots of example code to be used)
+
+https://github.com/HakkaTjakka/NL_TILE_MAP (Leaflet top view tile map of the BTE121 projection world of Holland)
+
+https://github.com/HakkaTjakka/earth-reverse-engineering_github (Adapted code (node.js) for bulk downloading Google 3d data)
+
+https://github.com/HakkaTjakka/PROJECT-CGI-BTE121-LEAFLET (Sample how to use c/c++ programs into cgi-bin in website together with SFML functions to convert images realtime on server site (can be anything...))
+
+https://github.com/HakkaTjakka/SKULL-MAZE-REVISED (Demo of one Wavefront 3d object used for creating a whole world in Minecraft 1.12.2, with tents of thousands of kilometres rails)
+
+https://github.com/HakkaTjakka/exxabites-floodfills (Samples of recursive command blocks (from exxabite who started that) for filling up stuff and/or place tnt in-game, 1.12.2 versions differ from 1.13+ versions)
+
+https://github.com/HakkaTjakka/ABC3D-WORDVIEW-MINECRAFT-1.12.2 (3d scrabble in Minecraft using .mcfunction files only)
+
+https://github.com/HakkaTjakka/BOOM (Part of Den Hague Holland converted from google 3d scale 3:1, with lots of tnt in surface/buildings and tunnels with tnt underneath)
+
+https://github.com/HakkaTjakka/CREATE-MINECRAFT-1.12.2-AQUAWORLD-YOURSELF (Demo of MinecraftWorldEditor to build the aquaworld yourself from scratch using 2d images)
+
+https://github.com/HakkaTjakka/AMSTERDAM_BTE (Amsterdam in BTE121 projection, used as 'mold' by people building Amsterdam in Minecraft)
+
+https://github.com/HakkaTjakka/DENHAAG_BTE121 (Den Hague BTE121 projection)
+
+https://github.com/HakkaTjakka/ENSCHEDE_BTE (Enschede BTE121 projection)
+
+https://github.com/HakkaTjakka/RIO_BTE (Part of Rio BTE121 projection testing Cubic Chunks and how to make solid hills)
+
+https://github.com/HakkaTjakka/Minecraft-1.12.2-Google-3d-New-York-2-1-TNT-Floodfill (Part of New York BTE121 projection)
+
+https://github.com/HakkaTjakka/MCREPACKER (Repack region files for testing .nbt system from IDidMakeThat)
+
+Anybody who wants to get involved in the project is welcome.
+
+https://github.com/HakkaTjakka          
 ![clipboard_small](https://github.com/HakkaTjakka/CAVES/blob/main/Minecraft/screenshots/2022-02-21_06.05.15.jpg)
 ![clipboard_small](https://github.com/HakkaTjakka/CAVES/blob/main/Minecraft/screenshots/2022-02-21_06.25.01.jpg)
 ![clipboard_small](https://github.com/HakkaTjakka/CAVES/blob/main/Minecraft/screenshots/2022-02-21_06.26.13.jpg)
