@@ -1,0 +1,5 @@
+sudo apt-get install zlib1g-dev
+sudo apt install zlib1g
+sudo apt-get install libsfml-dev
+sudo apt-get install oracle-java17-installer oracle-java17-set-default
+sudo add-apt-repository ppa:linuxuprising/java -y
