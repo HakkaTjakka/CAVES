@@ -1,0 +1,18 @@
+
+-------------- Clean: Release in CAVES (compiler: GNU GCC Compiler)---------------
+
+Cleaned "CAVES - Release"
+
+-------------- Build: Release in CAVES (compiler: GNU GCC Compiler)---------------
+
+g++.exe -O3 -w -std=c++17 -m64 -DSFML_STATIC -Iinclude -c D:\MINIMAL\CAVES\src\cave.cpp -o obj\cave.o
+g++.exe -O3 -w -std=c++17 -m64 -DSFML_STATIC -Iinclude -c D:\MINIMAL\CAVES\src\functions.cpp -o obj\functions.o
+g++.exe -O3 -w -std=c++17 -m64 -DSFML_STATIC -Iinclude -c D:\MINIMAL\CAVES\src\MCEditor\globals.cpp -o obj\MCEditor\globals.o
+g++.exe -O3 -w -std=c++17 -m64 -DSFML_STATIC -Iinclude -c D:\MINIMAL\CAVES\src\MCEditor\MCACoder.cpp -o obj\MCEditor\MCACoder.o
+g++.exe -O3 -w -std=c++17 -m64 -DSFML_STATIC -Iinclude -c D:\MINIMAL\CAVES\src\MCEditor\MCEditor.cpp -o obj\MCEditor\MCEditor.o
+g++.exe -O3 -w -std=c++17 -m64 -DSFML_STATIC -Iinclude -c D:\MINIMAL\CAVES\src\MCEditor\NBTCoder.cpp -o obj\MCEditor\NBTCoder.o
+g++.exe -Llib -o ..\bin\caves.exe obj\cave.o obj\functions.o obj\MCEditor\globals.o obj\MCEditor\MCACoder.o obj\MCEditor\MCEditor.o obj\MCEditor\NBTCoder.o  -s -m64 -static-libgcc -static-libstdc++ -fstack-protector -Wl,-u,vfscanf  -lm  lib\libsfml-graphics-s.a lib\libsfml-window-s.a lib\libsfml-audio-s.a lib\libsfml-system-s.a lib\libsfml-network-s.a lib\libsfml-main.a lib\libz.a
+Output file is ..\bin\caves.exe with size 988.50 KB
+Process terminated with status 0 (0 minute(s), 3 second(s))
+0 error(s), 0 warning(s) (0 minute(s), 3 second(s))
+ 
