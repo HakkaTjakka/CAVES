@@ -15,6 +15,10 @@ sudo apt-get install zlib1g-dev
 or
 
 sudo apt install zlib1g
+
+curses.h:
+
+sudo apt-get install libncurses5-dev libncursesw5-dev
 ***
 For installing the SFML libraries:
 
