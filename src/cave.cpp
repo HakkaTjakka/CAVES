@@ -514,11 +514,10 @@ int main_CAVES(int region_x, int region_z, unsigned char* mc) {
             BlockInfo* AY=AZ[z];
             toggle2();
             for (int y = 0; y < 256; y++) {
-                if (y==0) {
-                    AY[0] = BlockInfo(7, 0, 0 );
-                    continue;
-                }
-                if (AY[y].id==254) {
+                if (y<3) {
+                    AY[y] = BlockInfo(7, 0, 0 );
+//                    continue;
+                } else if (AY[y].id==254) {
                     AY[y]=BlockInfo(5,0,0,0);
                 }
             }
