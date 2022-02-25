@@ -480,7 +480,7 @@ int main_CAVES(int region_x, int region_z, unsigned char* mc) {
                                                                 if ( ! ( rand()%h ) ) {
                                                                     *hoppa=BlockInfo(89, 0, 0, 0);
                                                                 } else {
-                                                                    int c=int( (abs(xxx+xx)+abs(yyy+y)+abs(zzz+zz)+rand()%20 + (f_x+f_y+f_z)/4 ) / (60.0+8.0*var1+8.0*var2+8.0*var3) + 5500 )%4096;
+                                                                    int c=int( (abs(xxx+xx)+abs(yyy+y)+abs(zzz+zz)+rand()%20 + (f_x+f_y+f_z)/4 ) / (60.0+8.0*var1+8.0*var2+8.0*var3) + 5500 + (abs(xxx+xx)+abs(yyy+y)+abs(zzz+zz))/200 )%4096;
                                                                     *hoppa=BlockInfo(95,0,c_ar[c],0);
                                                                 }
                                                             } else if (!(hoppa->id==95)) {
