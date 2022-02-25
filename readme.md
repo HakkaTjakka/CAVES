@@ -1,7 +1,9 @@
 # CAVES
 # Minecraft 1.12.2 c/c++ cave generator with tnt blocks
 
-Added 2 more layers of bedrock against leaking exxabite floodfill because of height update (lots of empty space <0 in 1.18.1)
+Added 2 more layers of bedrock against leaking exxabite floodfill because of height update (lots of empty space <0 in 1.18.1, windows version needs (re-)compiling .exe, i'm on Ubuntu Linux for now...) (did not work... maybe the water skips into non loaded chunks under y<0...)
+
+https://github.com/HakkaTjakka/CAVES/blob/main/Minecraft/1.18.1/mods/toofast-1.18-0.0.1.2.jar (for server, 'player moves to quickly', works!)
 
 Including CodeBlocks and mingw64 seh compiler (Windows)
 
