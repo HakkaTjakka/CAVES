@@ -145,13 +145,29 @@ int main_CAVES(int region_x, int region_z, unsigned char* mc) {
         return 0;
     }
 
+//    int col_a[16];
+//    for (int i=0; i++; i<16) col_a[i]=0;
+//    setvbuf(stdout, NULL, _IOLBF, 0);
     static int c_ar[4096];
     {
         static bool first=true;
         if (first) {
             first=false;
             srand(12345);
-            for (int i=0; i<4096; i++) c_ar[i]=rand()%16;
+            for (int i=0; i<4096; i++) {
+                c_ar[i]=rand()%16;
+                if (i!=0) while (c_ar[i]==c_ar[i-1]) c_ar[i]=rand()%16;
+//                printf("%02d ",c_ar[i]);
+//                col_a[c_ar[i]]++;
+
+            }
+//            printf(" \n");
+//            for (int i=0; i<16; i++ ) {
+//                printf("%02d=%d \n",i,col_a[i]);
+//            }
+//            printf(" \n");
+//            for (int i=0; i<16; i++) col_a[i]=0;
+//            fflush(stdout);
         }
     }
 
@@ -324,7 +340,11 @@ int main_CAVES(int region_x, int region_z, unsigned char* mc) {
     for (int x = 0; x < 512; x++) {
         BlockInfo** AZ=AX[x];
         xx=x+chunk_offsetx*16;
-        printf("\rx=%3d => %d/%d\r",x,counter1,counter2);
+        printf("\rx=%3d => %d/%d ",x,counter1,counter2);
+//        for (int i=0; i<16; i++ ) {
+//            printf("%d=%d ",i,col_a[i]);
+//        }
+        printf("\r");
         fflush(stdout);
         for (int z = 0; z < 512; z++) {
             zz=z+chunk_offsetz*16;
@@ -384,8 +404,7 @@ int main_CAVES(int region_x, int region_z, unsigned char* mc) {
                                    0.2*sin(float(y_a+z_a)/(730.72+37*sin(float(y_a-x_a)/95) ))
                                    );
 
-
-                        r3_a= 1+int(115.0 + 144.0*sin( (
+                        r3_a= 1+int(95.0 + 134.0*sin( (
                                  0.8*( var1*f_z/1.44  + var2*f_x/2.36 )       /  ( 93.3 * (1.0+var1*0.4*sin((var3*f_x/1.3 + f_y/2.4 + f_z    ) / 67.0)))   +
                                  var2*0.7*( var2*f_z/1.14  + var3*f_x/1.17 )  /  ( 89.4 * (1.0+var2*0.4*sin((f_x/1.7 + f_y     - var1*f_z    ) / 90.0)))   +
                                  var3*3.10*sin( (var3*f_z/1.36 + f_x/1.55 )   /  (112.6 * (1.0+0.4*sin((var2*f_x     + f_y     + f_z/2.1) / 71.0)))   ) +
@@ -473,26 +492,30 @@ int main_CAVES(int region_x, int region_z, unsigned char* mc) {
                                                             else *hoppa=BlockInfo(5, 0, 0, 0);
                                                         } else if (!(hoppa->id==5)) {
                                                             float dd=d[xxx+17][zzz+17][yyy+17];
-                                                            if (dd<19.0 || dd2<19 ) {
+                                                            if (dd<20.0 || dd2<20 ) {
                                                                 int h=(int)dd-13;
                                                                 if (h<0) h=0;
                                                                 h=2000 - h*200;
                                                                 if ( ! ( rand()%h ) ) {
                                                                     *hoppa=BlockInfo(89, 0, 0, 0);
                                                                 } else {
-                                                                    float ch= (var1*var2*var3*50)*(1.0+sin( ((f_x*var1+f_y*var2+f_z*var3)/8 + float((xxx+xx-yyy-y+zzz+zz)))/1200 ) ) ;
-                                                                    int c=int( (abs(xxx+xx)+abs(yyy+y)+abs(zzz+zz)+rand()%20 + (f_x+f_y+f_z)/4 + ch ) / (60.0+8.0*var1+8.0*var2+8.0*var3) + 5500 )%4096;
+                                                                    float ch= (var1*var2*var3*75)*(1.0+sin( ((f_x*var1+f_y*var2+f_z*var3)/4 + float(((xxx+xx)*var2-(yyy+y)*var3+(zzz+zz)*var1)))/300 ) );
+                                                                    int c=int( (abs(xxx+xx)+abs(yyy+y)+abs(zzz+zz)+rand()%20 + (f_x+f_y+f_z)/4 + ch ) / (40.0+8.0*var1+8.0*var2+8.0*var3) + 5500 )%4096;
                                                                     *hoppa=BlockInfo(95,0,c_ar[c],0);
+//                                                                    col_a[c_ar[c]]++;
                                                                 }
                                                             } else if (!(hoppa->id==95)) {
-                                                                if (dd<20.0 || dd2<20.0) {
-                                                                    if (rand()%5000 < int(  30.0  +20.0*sin( (f_x+f_y+f_z)/100.07       ) + 10.0*sin( (f_x/2+f_y/2+f_z/2)/55.07       ) ) ) *hoppa=BlockInfo(89,0,0,0);
-                                                                }
                                                                 if (dd<21.0 || dd2<21.0) {
-                                                                    if (rand()%4000 < int(  30.0  +20.0*sin( (f_x+f_y+f_z)/100.07 + 0.1 ) + 10.0*sin( (f_x/2+f_y/2+f_z/2)/55.07 + 0.1 ) ) ) *hoppa=BlockInfo(89,0,0,0);
+                                                                    if (rand()%3000 < int(  30.0  +20.0*sin( (f_x+f_y+f_z)/100.07       ) + 10.0*sin( (f_x/2+f_y/2+f_z/2)/55.07       ) ) ) *hoppa=BlockInfo(89,0,0,0);
+                                                                }
+                                                                if (dd<23.0 || dd2<23.0) {
+                                                                    if (rand()%3000 < int(  30.0  +20.0*sin( (f_x+f_y+f_z)/100.07 + 0.1 ) + 10.0*sin( (f_x/2+f_y/2+f_z/2)/55.07 + 0.1 ) ) ) *hoppa=BlockInfo(89,0,0,0);
                                                                 }
                                                                 if (dd<25.0 || dd2<25.0) {
                                                                     if (rand()%3000 < int(  30.0  +20.0*sin( (f_x+f_y+f_z)/100.07 + 0.2 ) + 10.0*sin( (f_x/2+f_y/2+f_z/2)/55.07 + 0.2 ) ) ) *hoppa=BlockInfo(89,0,0,0);
+                                                                }
+                                                                if (dd<29.0 || dd2<29.0) {
+                                                                    if (rand()%9000 < int(  30.0  +20.0*sin( (f_x+f_y+f_z)/100.07 + 0.2 ) + 10.0*sin( (f_x/2+f_y/2+f_z/2)/55.07 + 0.2 ) ) ) *hoppa=BlockInfo(89,0,0,0);
                                                                 }
                                                             }
                                                         }
