@@ -1,3 +1,5 @@
+Remove screen tearing nvidia under Ubuntu: https://www.reddit.com/r/linuxquestions/comments/8fb9oj/how_to_fix_screen_tearing_ubuntu_1804_nvidia_390/
+***
 For running a Minecraft server on Forge (1.18.1) you need to install Java version 17:
 
 sudo apt-get install oracle-java17-installer oracle-java17-set-default
