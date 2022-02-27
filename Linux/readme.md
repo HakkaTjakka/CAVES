@@ -82,7 +82,7 @@ g++ -o ../caves cave.o functions.o globals.o MCACoder.o MCEditor.o NBTCoder.o -s
 ***
 Created caves.cbp in src_prev for use with CodeBlocks
 ***
-When installing a server under Linux with the forge-1.18.1-39.0.79-installer.jar file from CAVES/Minecraft/1.18.1/installers i included my server.properties file and user_jvm_args.txt and run.sh
+When installing a server under Linux with the forge-1.18.1-39.0.79-installer.jar (update new version: forge-1.18.1-39.0.88-installer.jar) file from CAVES/Minecraft/1.18.1/installers i included my server.properties file and user_jvm_args.txt and run.sh
 
 Also edit fml.toml in the config dir and set maxThreads = 4 (mine is 4) to maximum number of processor cores on your cpu.
 
