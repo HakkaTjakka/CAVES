@@ -61,7 +61,7 @@ Also don't forget to set the online-mode=false in the server.properties besides 
 Also when playing with people outside your home network you need to port forward your router, with the ip the server is on and the port its using. Tip: If it won't work probably ranges from other port forwards overlap yours.
 Then you also need to provide your external ip instead of the internal to other players.
 ***
-# Have fun!
+# Have fun! Demo(s) at: https://github.com/HakkaTjakka/caves_sample
 ***
 If you get errors, or this manual is not working like it pretends, plz report then we can adjust it with more information. Also when having suggestions or made some changes or code yourself with this repo, please make issue a notice and share. This is just one example on how to create whole Minecraft worlds (you can stack them with Cubic Chunks eventually) in a simple way. In the MCEditor directory you can find a file called test.cpp, music.cpp, and paint.cpp giving more examples on how to build region files from scratch, like include music systems, and multiple command command blocks, like used in my other Minecraft world repo's. Like how to build Gray coded ordered commandblocks with multiple commands in domino effect style. In combination with .mcfunctions you could make code where like whole castles just pop out of the command blocks or .mcfunctions.
 ***
@@ -104,7 +104,7 @@ Here are some examples of repo's made with the MCEditor code and MinecraftWorldE
 
 Video's:
 
-https://www.youtube.com/channel/UCdmRlIxcrXmkC7puY4s9Jzg
+https://www.youtube.com/channel/UCdmRlIxcrXmkC7puY4s9Jzg (showing screen tearing, NVIDIA/Linux issue, fixed, see readme.md under Linux dir)
 
 https://www.facebook.com/MinecraftWorldEditor/
 
