@@ -13,6 +13,10 @@ after all, update initramfs with
 sudo update-initramfs -u
 
 reboot
+
+When you then still have screen tearing try this: https://www.techticity.com/howto/how-to-fix-nvidia-vsync-on-linux-with-proprietary-drivers/
+
+For me it worked. Rendering with ReplayMod with the Fabric system now shows no tearing anymore... (like the vids on YouTube below do)
 ***
 For running a Minecraft server on Forge (1.18.1) you need to install Java version 17:
 
