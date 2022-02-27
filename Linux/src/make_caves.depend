@@ -1,0 +1,76 @@
+# depslib dependency file v1.0
+1645502476 source:/home/pacman/.minecraft/CAVES/Linux/src/functions.cpp
+	<stdio.h>
+	<sys/stat.h>
+	<cstring>
+
+1645502476 source:/home/pacman/.minecraft/CAVES/Linux/src/MCEditor/globals.cpp
+	"globals.h"
+	"zlib.h"
+
+1645502476 /home/pacman/.minecraft/CAVES/Linux/src/MCEditor/globals.h
+	<string>
+	<cstring>
+	<algorithm>
+
+1645502476 source:/home/pacman/.minecraft/CAVES/Linux/src/MCEditor/MCACoder.cpp
+	"MCACoder.h"
+	<cstring>
+	<cstdlib>
+	<queue>
+	<algorithm>
+	"globals.h"
+
+1645502476 /home/pacman/.minecraft/CAVES/Linux/src/MCEditor/MCACoder.h
+	<string>
+	<cstdlib>
+	"NBTCoder.h"
+	"BlockEntity.h"
+
+1645502476 /home/pacman/.minecraft/CAVES/Linux/src/MCEditor/NBTCoder.h
+	<cstdio>
+	<vector>
+	<list>
+	<string>
+	<algorithm>
+	<cstring>
+	"globals.h"
+
+1645502476 /home/pacman/.minecraft/CAVES/Linux/src/MCEditor/BlockEntity.h
+	<string>
+	"globals.h"
+
+1645502476 source:/home/pacman/.minecraft/CAVES/Linux/src/MCEditor/MCEditor.cpp
+	"MCEditor.h"
+	<vector>
+	<algorithm>
+	<queue>
+	<utility>
+	<set>
+	<cstring>
+	"globals.h"
+
+1645502476 /home/pacman/.minecraft/CAVES/Linux/src/MCEditor/MCEditor.h
+	"globals.h"
+	"MCACoder.h"
+	"BlockEntity.h"
+
+1645502476 source:/home/pacman/.minecraft/CAVES/Linux/src/MCEditor/NBTCoder.cpp
+	"NBTCoder.h"
+
+1645960567 source:/home/pacman/.minecraft/CAVES/Linux/src/cave.cpp
+	<curses.h>
+	"MCEditor/MCEditor.h"
+	"MCEditor/BlockEntity.h"
+	"MCEditor/MCACoder.h"
+	<math.h>
+	<iostream>
+	<time.h>
+	<unistd.h>
+	<sys/types.h>
+	<sys/stat.h>
+	<SFML/System/Thread.hpp>
+
+1645954388 source:/home/pacman/.minecraft/CAVES/Linux/src/main.cpp
+	<SFML/Graphics.hpp>
+

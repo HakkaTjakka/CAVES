@@ -1,6 +1,7 @@
 #define SFML_STATIC
 #define PI 3.141592653589793
 
+
 //#include <conio.h>
 #include <curses.h>
 #include "MCEditor/MCEditor.h"
@@ -40,7 +41,7 @@ float fast_sin[4096];
 MCEditor editor;
 unsigned char region_block[512*256*512*4];
 
-int main(int argc, char ** argv) {
+int main_caves(int argc, char ** argv) {
     launch_MCEDITOR();
     while (MCEDITOR_running==0) sleep(100);
     while (MCEDITOR_running==1) sleep(1000);
