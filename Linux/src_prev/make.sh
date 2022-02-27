@@ -1,4 +1,4 @@
-g++ -O3 -w -std=c++17 -m64 -c cave.cpp -lsfml-system
+g++ -O3 -w -std=c++17 -m64 -c cave.cpp
 g++ -O3 -w -std=c++17 -m64 -c functions.cpp
 g++ -O3 -w -std=c++17 -m64 -c MCEditor/globals.cpp
 g++ -O3 -w -std=c++17 -m64 -c MCEditor/MCACoder.cpp
