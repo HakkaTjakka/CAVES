@@ -10,7 +10,7 @@ Changed the source code in Windows and Linux version for better (i think ...) co
 ***
 https://github.com/HakkaTjakka/CAVES/blob/main/Minecraft/1.18.1/mods/toofast-1.18-0.0.1.2.jar (for server, 'player moves to quickly', works!)
 
-Including CodeBlocks and mingw64 seh compiler (Windows)
+Included CodeBlocks and mingw64 seh compiler (Windows) in this repo, from:
 
 Mingw64 seh compiler:
 
