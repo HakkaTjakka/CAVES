@@ -7,7 +7,7 @@ Changed the source code in Windows and Linux version for better (i think ...) co
 
 # Windows version .exe needs to be recompiled for that!
 (I'm under Ubuntu now and don't want to switch, i update it later)
-
+***
 https://github.com/HakkaTjakka/CAVES/blob/main/Minecraft/1.18.1/mods/toofast-1.18-0.0.1.2.jar (for server, 'player moves to quickly', works!)
 
 Including CodeBlocks and mingw64 seh compiler (Windows)
@@ -42,7 +42,8 @@ Point Settings->Compiler->Toolchain executables to <DRIVELETTER>\:<PATH_TO>\CAVE
 
 # Forge Server 1.18.1 on 83.83.222.154
 
-(https://github.com/HakkaTjakka/CAVES/blob/main/Minecraft/1.18.1/installers/forge-1.18.1-39.0.79-installer.jar)
+(https://github.com/HakkaTjakka/CAVES/blob/main/Minecraft/1.18.1/installers/forge-1.18.1-39.0.88-installer.jar)
+(deleted: https://github.com/HakkaTjakka/CAVES/blob/main/Minecraft/1.18.1/installers/forge-1.18.1-39.0.79-installer.jar)
 
 ***
 Tip: If you want to play on a (local) server, with more players, while only having one account, you can do the following:
