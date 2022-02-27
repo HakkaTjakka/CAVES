@@ -41,11 +41,11 @@ float fast_sin[4096];
 MCEditor editor;
 unsigned char region_block[512*256*512*4];
 
-int main(int argc, char ** argv) {
-    launch_MCEDITOR();
-    while (MCEDITOR_running==0) sleep(100);
-    while (MCEDITOR_running==1) sleep(1000);
-}
+//int caves(int argc, char ** argv) {
+//    launch_MCEDITOR();
+//    while (MCEDITOR_running==0) sleep(100);
+//    while (MCEDITOR_running==1) sleep(1000);
+//}
 
 float get_fast_sin(float rot) {
     static float parm=4096.0/(2.0*PI);

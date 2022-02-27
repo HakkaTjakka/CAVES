@@ -2,14 +2,14 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="CAVES" />
+		<Option title="MAKE_CAVES" />
 		<Option platforms="Unix;" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Release">
 				<Option platforms="Unix;" />
-				<Option output="../bin/caves" prefix_auto="1" extension_auto="1" />
+				<Option output="../make_caves" prefix_auto="1" extension_auto="1" />
 				<Option working_dir=".." />
 				<Option object_output="obj" />
 				<Option type="1" />
@@ -37,7 +37,7 @@
 			</Target>
 			<Target title="Debug">
 				<Option platforms="Unix;" />
-				<Option output="../bin/caves_debug" prefix_auto="1" extension_auto="1" />
+				<Option output="../make_caves_debug" prefix_auto="1" extension_auto="1" />
 				<Option working_dir=".." />
 				<Option object_output="obj/debug/" />
 				<Option type="1" />
@@ -90,6 +90,7 @@
 		<Unit filename="MCEditor/globals.h" />
 		<Unit filename="cave.cpp" />
 		<Unit filename="functions.cpp" />
+		<Unit filename="main.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
