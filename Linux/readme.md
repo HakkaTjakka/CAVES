@@ -100,7 +100,7 @@ Tip: If you want to play on a (local) server, with more players, while only havi
 
 3) Then start the Minecraft launcher, it will say you only can play offline. Start. You now are under a different name, so you can log into the server with multiple players, all with different names, otherwise the server disconnects same names...
 
-4) Of course reconnect to the net.
+4) Ofcourse reconnect to the net.
 
 Also don't forget to set the online-mode=false in the server.properties besides the usual stuff like ip address etc.
 
