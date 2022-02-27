@@ -1,4 +1,18 @@
 Remove screen tearing nvidia under Ubuntu: https://www.reddit.com/r/linuxquestions/comments/8fb9oj/how_to_fix_screen_tearing_ubuntu_1804_nvidia_390/
+
+edit this file (or create it)
+
+sudo nano /etc/modprobe.d/zz-nvidia-modeset.conf
+
+and add this line
+
+options nvidia_drm modeset=1
+
+after all, update initramfs with
+
+sudo update-initramfs -u
+
+reboot
 ***
 For running a Minecraft server on Forge (1.18.1) you need to install Java version 17:
 
