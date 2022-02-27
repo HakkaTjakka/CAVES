@@ -1,5 +1,3 @@
-For compiling with Linux (Ubuntu 20.04 in my case) install the following:
-
 For running a Minecraft server on Forge (1.18.1) you need to install Java version 17:
 
 sudo apt-get install oracle-java17-installer oracle-java17-set-default
@@ -8,6 +6,8 @@ and
 
 sudo add-apt-repository ppa:linuxuprising/java -y
 ***
+For compiling with Linux (Ubuntu 20.04 in my case) install the following:
+
 For using zlib under Ubuntu install with:
 
 sudo apt-get install zlib1g-dev
@@ -24,9 +24,21 @@ For installing the SFML libraries:
 
 sudo apt-get install libsfml-dev
 ***
-With the make.sh you can compile the caves program:
+Upgrading to include SFML windows for future output while generating caves (like top-view/side-view/front-view of region file(s))
 
 cd src
+
+to compile from bash: ./make_caves.sh
+
+to compile with make (uses Makefile): make
+
+Created make_caves.cbp in src for use with CodeBlocks
+***
+With the make.sh you can compile the caves program:
+
+Previous now in directory: src_prev
+
+cd src_prev
 
 ./make.sh
 
@@ -47,6 +59,8 @@ g++ -O3 -w -std=c++17 -m64 -c MCEditor/MCEditor.cpp
 g++ -O3 -w -std=c++17 -m64 -c MCEditor/NBTCoder.cpp
 
 g++ -o ../caves cave.o functions.o globals.o MCACoder.o MCEditor.o NBTCoder.o -s -m64 -lm -lsfml-system -lz
+***
+Created caves.cbp in src_prev for use with CodeBlocks
 ***
 When installing a server under Linux with the forge-1.18.1-39.0.79-installer.jar file from CAVES/Minecraft/1.18.1/installers i included my server.properties file and user_jvm_args.txt and run.sh
 
