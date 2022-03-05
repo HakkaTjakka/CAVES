@@ -67,6 +67,7 @@
 			<Add option="-std=c++17" />
 			<Add option="-m64" />
 			<Add directory="include" />
+			<Add directory="include/SFML" />
 		</Compiler>
 		<Linker>
 			<Add option="-s" />
@@ -77,8 +78,15 @@
 			<Add library="sfml-system" />
 			<Add library="sfml-network" />
 			<Add library="z" />
+			<Add library="X11" />
+			<Add library="glut" />
+			<Add library="GLU" />
+			<Add library="GL" />
 			<Add directory="lib" />
 		</Linker>
+		<Unit filename="../shaders/caves.frag" />
+		<Unit filename="../shaders/caves_backup.frag" />
+		<Unit filename="../shaders/test.frag" />
 		<Unit filename="MCEditor/BlockEntity.h" />
 		<Unit filename="MCEditor/MCACoder.cpp" />
 		<Unit filename="MCEditor/MCACoder.h" />
@@ -91,6 +99,8 @@
 		<Unit filename="functions.cpp" />
 		<Unit filename="main.cpp" />
 		<Unit filename="make_caves.cpp" />
+		<Unit filename="shaders.cpp" />
+		<Unit filename="shaders.hpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
