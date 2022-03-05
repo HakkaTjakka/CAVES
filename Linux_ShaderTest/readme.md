@@ -49,7 +49,7 @@ Then the same can be done in the GPU with a fragment shader.
 
 The example here shown then creates arround every 'hit' a sphere, so you get a big tube following the path of the function.
 
-The crux here you do NOT calculate a X,Y,Z position out of a formula, but have 3 loops (for X,Y and Z), and then determine wether the position is on the path or not. Maybe it also works with only 2 calculations, like f(X,Y,Z) and f(X+1,Y+1,Z+1), or (now you get more hits around one point in space, so cubes are connected) with f(X-0.5,Y,Z) <> f(X+0.5,Y,Z), f(X,Y-0.5,Z)  <> f(X,Y-0.5,Z), f(X,Y,Z-0.5) <> f(X,Y,Z-0.5).
+The crux here you do NOT calculate a X,Y,Z position out of a formula, but have 3 loops (for X,Y and Z), and then determine wether the position is on the path or not. Maybe it also works with only 2 calculations, like f(X,Y,Z) and f(X+1,Y+1,Z+1), or (now you get more hits around one point in space, so cubes are connected) with f(X-0.5,Y,Z) <> f(X+0.5,Y,Z), f(X,Y-0.5,Z)  <> f(X,Y+0.5,Z), f(X,Y,Z-0.5) <> f(X,Y,Z+0.5).
 
 Aim of the game is to use GPU shaders to do (very) fast calculations to create region files.
 This example is not realy fast, because for every 'hit' it generates a 3d sphere with a diameter of 35 blocks around it, using up 35 shader calls.
