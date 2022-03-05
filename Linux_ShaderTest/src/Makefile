@@ -9,8 +9,8 @@
 
 CC = g++
 CFLAGS  = -O3 -w -std=c++17 -m64
-LDLAGS  = -s -m64 -lm -lsfml-system -lsfml-window -lsfml-graphics -lz
-OBJS = obj/main.o obj/make_caves.o obj/functions.o obj/MCEditor/globals.o obj/MCEditor/MCACoder.o obj/MCEditor/MCEditor.o obj/MCEditor/NBTCoder.o
+LDLAGS  = -s -m64 -lm -lsfml-system -lsfml-window -lsfml-graphics -lz -lX11 -lglut -lGLU -lGL
+OBJS = obj/main.o obj/shaders.o obj/make_caves.o obj/functions.o obj/MCEditor/globals.o obj/MCEditor/MCACoder.o obj/MCEditor/MCEditor.o obj/MCEditor/NBTCoder.o
 
 default: ../make_caves
 
@@ -19,6 +19,9 @@ default: ../make_caves
 
 obj/main.o: main.cpp
 	$(CC) $(CFLAGS) -c main.cpp -o obj/main.o
+
+obj/shaders.o: shaders.cpp shaders.hpp
+	$(CC) $(CFLAGS) -c shaders.cpp -o obj/shaders.o
 
 obj/make_caves.o: make_caves.cpp
 	$(CC) $(CFLAGS) -c make_caves.cpp -o obj/make_caves.o
