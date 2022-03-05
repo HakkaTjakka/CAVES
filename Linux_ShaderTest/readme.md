@@ -1,6 +1,6 @@
 # Test.
 
-Create 1.12.2 region files with help of shader(s).
+Create 1.12.2 region files with help of shader(s). (Not ready yet...)
 
 This one is rather complex. What goes very fast is calculating the 'paths' of some sine waveform 'tubes' running around the region file.
 
