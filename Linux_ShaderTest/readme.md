@@ -1,96 +1,66 @@
-For running a Minecraft server on Forge (1.18.1) you need to install Java version 17:
+# Test.
 
-sudo apt-get install oracle-java17-installer oracle-java17-set-default
+Create 1.12.2 region files with help of shader(s).
 
-and
+This one is rather complex. What goes very fast is calculating the 'paths' of some sine waveform 'tubes' running around the region file.
 
-sudo add-apt-repository ppa:linuxuprising/java -y
-***
-For compiling with Linux (Ubuntu 20.04 in my case) install the following:
+Its done by some (random) formulas that form a function based on x,y and z coord. VAL=f(X,Y,Z)
 
-For using zlib under Ubuntu install with:
+Then, when doing the same calculation for VAL=f(X+1,Y,Z), VAL=f(X,Y+1,Z), VAL=f(X,Y,Z+1).
 
-sudo apt-get install zlib1g-dev
+A little bit like this:
 
-or
+    #include <somestuff>
 
-sudo apt install zlib1g
+    bool calculate(ivec3 pos) {
+        int p[4];
+        for (int n=0; n<4; n++) {
+            float x=pos.x+(n==1);
+            float y=pos.y+(n==2);
+            float z=pos.z+(n==3);
+            p[n]=int( 256.0+250.0*( sin( (x-256.0)/70.0 + sin( (z-200.0)/54.0 )/3.0 + sin( (y-100.0)/44.0 )/5.0 ) ) );
+        }
 
-curses.h:
+        if ( !(     (p[0]>pos.x && p[1]>pos.x  && p[2]>pos.x  && p[3]>pos.x) ||
+                    (p[0]<pos.x && p[1]<pos.x  && p[2]<pos.x  && p[3]<pos.x)) ) {
+                    return true;
+        }
+        return false;
+    }
 
-sudo apt-get install libncurses5-dev libncursesw5-dev
-***
-For installing the SFML libraries:
+    int main() {
+        ivec3 pos;
+        bool hit;
 
-sudo apt-get install libsfml-dev
-***
-Upgrading to include SFML windows for future output while generating caves (like top-view/side-view/front-view of region file(s))
+        for (pos.x=0; pos.x<512; pos.x++) {
+            for (pos.y=0; pos.y<256; pos.y++) {
+                for (pos.z=0; pos.z<512; pos.z++) {
+                    hit=calculate(pos);
+                }
+            }
+        }
+    }
 
-cd src
 
-to compile from bash: ./make_caves.sh
 
-to compile with make (uses Makefile): make
+Of course you can calculate a whole array[512][256]512] before, it saves you 75% of calculations.
 
-Created make_caves.cbp in src for use with CodeBlocks
-***
-With the make.sh you can compile the caves program:
+Then the same can be done in the GPU with a fragment shader.
 
-Previous now in directory: src_prev
+The example here shown then creates arround every 'hit' a sphere, so you get a big tube following the path of the function.
 
-cd src_prev
+The crux here you do NOT calculate a X,Y,Z position out of a formula, but have 3 loops (for X,Y and Z), and then determine wether the position is on the path or not. Maybe it also works with only 2 calculations, like f(X,Y,Z) and f(X+1,Y+1,Z+1), or (now you get more hits around one point in space, so cubes are connected) with f(X-0.5,Y,Z) <> f(X+0.5,Y,Z), f(X,Y-0.5,Z)  <> f(X,Y-0.5,Z), f(X,Y,Z-0.5) <> f(X,Y,Z-0.5).
 
-./make.sh
+Aim of the game is to use GPU shaders to do (very) fast calculations to create region files.
+This example is not realy fast, because for every 'hit' it generates a 3d sphere with a diameter of 35 blocks around it, using up 35 shader calls.
 
-It then produces the caves executable one directory level up, where there is also the template/region/r.0.0.mca file
-***
-make.sh:
+I've published this for now to give you some idea about how shaders can speed up things. When not using complex algoritms like in this example a region file is created within the blink of an eye. Leaving lightning/compressing/saving as main time factor.
 
-g++ -O3 -w -std=c++17 -m64 -c cave.cpp -lsfml-system
+Next will be some examples to create (simple) shapes and/or region files, and do some editing with them. Realtime displaying in 3d (shaders also), and edit functions with help of shaders. Like ultrafast merging/subtraction / transforming / logical functions etc.
 
-g++ -O3 -w -std=c++17 -m64 -c functions.cpp
+It would be nice feeding the calculated result directly to the beast in Java. But for that i'm working on a fast geometry shader using only the voxels (cubes position, a ivec3, and some other data like block type).
 
-g++ -O3 -w -std=c++17 -m64 -c MCEditor/globals.cpp
-
-g++ -O3 -w -std=c++17 -m64 -c MCEditor/MCACoder.cpp
-
-g++ -O3 -w -std=c++17 -m64 -c MCEditor/MCEditor.cpp
-
-g++ -O3 -w -std=c++17 -m64 -c MCEditor/NBTCoder.cpp
-
-g++ -o ../caves cave.o functions.o globals.o MCACoder.o MCEditor.o NBTCoder.o -s -m64 -lm -lsfml-system -lz
-***
-Created caves.cbp in src_prev for use with CodeBlocks
-***
-When installing a server under Linux with the forge-1.18.1-39.0.79-installer.jar file from CAVES/Minecraft/1.18.1/installers i included my server.properties file and user_jvm_args.txt and run.sh
-
-Also edit fml.toml in the config dir and set maxThreads = 4 (mine is 4) to maximum number of processor cores on your cpu.
-
-Also use:
-
-sudo cpupower frequency-set -g performance
-
-for maximum cpu usage...
-***
-Tip: If you want to play on a (local) server, with more players, while only having one account, you can do the following:
-
-1) Disconnect the computer from the internet, by pulling the cable or shutting it off in the os.
-
-2) Edit the launcher_accounts.json file (in windows in %appdata%/.minecraft) or in Ubuntu in your .minecraft dir in home. Change the name, don't use spaces but underscore if needed.
-
-3) Then start the Minecraft launcher, it will say you only can play offline. Start. You now are under a different name, so you can log into the server with multiple players, all with different names, otherwise the server disconnects same names...
-
-4) Of course reconnect to the net.
-
-Also don't forget to set the online-mode=false in the server.properties besides the usual stuff like ip address etc.
-
-Also when playing with people outside your home network you need to port forward your router, with the ip the server is on and the port its using. Tip: If it won't work probably ranges from other port forwards overlap yours.
-Then you also need to provide your external ip instead of the internal to other players.
-***
-Have fun!
-***
-If you get errors, or this manual is not working like it pretends, plz report then we can adjust it with more information. Also when having suggestions or made some changes or code yourself with this repo, please make issue a notice and share. This is just one example on how to create whole Minecraft worlds (you can stack them with Cubic Chunks eventually) in a simple way. In the MCEditor directory you can find a file called test.cpp, music.cpp, and paint.cpp giving more examples on how to build region files from scratch, like include music systems, and multiple command command blocks, like used in my other Minecraft world repo's. Like how to build Gray coded ordered commandblocks with multiple commands in domino effect style. In combination with .mcfunctions you could make code where like whole castles just pop out of the command blocks or .mcfunctions.
-***
-Goal is to set up a platform where worlds can by easily created from 2d drawings, 3d objects, code, commandblocks, .mcfunctions etc. With an easy to use interface. Any help is appreciated. Nice would be a saving to .nbt in the new 1.13+ structure (now 1.12.2)
- 
-
+What i'm also working on is (stuff like that already exists but i'm building own that is simple sfml/opengl/c++ compatible) is feeding (int/float/other) data through textures to the fragment shader(s), and outputting data the same way.
+Because SFML does not support native OpenGL for that OpenGL functions will be written for that to. 
+Like passing a (ivec3) array to the geometry shader that then calculates all visible faces ot the cubes.
+If you like to help please let me know. I'm renting only one brain here.
