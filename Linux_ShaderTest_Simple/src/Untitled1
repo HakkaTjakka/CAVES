@@ -1,0 +1,31 @@
+    #include <somestuff>
+
+    bool calculate(ivec3 pos) {
+        int p[4];
+        for (int n=0; n<4; n++) {
+            float x=pos.x+(n==1);
+            float y=pos.y+(n==2);
+            float z=pos.z+(n==3);
+            p[n]=int( 256.0+250.0*( sin( (x-256.0)/70.0 + sin( (z-200.0)/54.0 )/3.0 + sin( (y-100.0)/44.0 )/5.0 ) ) );
+        }
+
+        if ( !(     (p[0]>pos.x && p[1]>pos.x  && p[2]>pos.x  && p[3]>pos.x) ||
+                    (p[0]<pos.x && p[1]<pos.x  && p[2]<pos.x  && p[3]<pos.x)) ) {
+                    return true;
+        }
+        return false;
+    }
+
+    int main() {
+        ivec3 pos;
+        bool hit;
+
+        for (pos.x=0; pos.x<512; pos.x++) {
+            for (pos.y=0; pos.y<256; pos.y++) {
+                for (pos.z=0; pos.z<512; pos.z++) {
+                    hit=calculate(pos);
+                }
+            }
+        }
+    }
+
