@@ -199,6 +199,8 @@ MCEditor* READ_REGION(int region_x, int region_z) {
     MCEditor *editor = new MCEditor(region_x,region_z);
 
     if (load_empty) {
+        editor->mca_coder.reset_block(region_x,region_z);
+
         editor->mca_coder.remove_block_entities=1;
         if (!file_exists("saves/template/region/r.0.0.mca")) {
             if (!file_exists("template/region/r.0.0.mca")) {
@@ -214,7 +216,6 @@ MCEditor* READ_REGION(int region_x, int region_z) {
         editor->mca_coder.setPOSITIONS();
 
         printf("Creating region r.%d.%d.mca:\n",region_x,region_z);
-        editor->mca_coder.reset_block(region_x,region_z);
     } else {
         editor->mca_coder.reset_block(region_x,region_z);
         remove_block_entities=0;
