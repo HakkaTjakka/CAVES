@@ -329,6 +329,11 @@ int main_CAVES_simple(int region_x, int region_z, unsigned char* mc, char* shade
             for (int y = 0; y < 256; y++) {
                 if (y==0) {
                     AY[y] = BlockInfo(7, 0, 0, 0);
+                } else if (y<=5) {
+                    if (AY[y].id==0) {
+                        if (!(rand()%10000)) AY[y] = BlockInfo(8, 0, 0, 0);
+                        else AY[y] = BlockInfo(8, 0, 0, 0);
+                    }
                 }
             }
         }

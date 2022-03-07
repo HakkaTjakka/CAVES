@@ -86,6 +86,7 @@
 		</Linker>
 		<Unit filename="../shaders/caves.frag" />
 		<Unit filename="../shaders/caves_backup.frag" />
+		<Unit filename="../shaders/metaballs2.frag" />
 		<Unit filename="../shaders/test.frag" />
 		<Unit filename="MCEditor/BlockEntity.h" />
 		<Unit filename="MCEditor/MCACoder.cpp" />
@@ -97,8 +98,10 @@
 		<Unit filename="MCEditor/globals.cpp" />
 		<Unit filename="MCEditor/globals.h" />
 		<Unit filename="functions.cpp" />
+		<Unit filename="functions.hpp" />
 		<Unit filename="main.cpp" />
 		<Unit filename="make_caves.cpp" />
+		<Unit filename="make_caves_simple.cpp" />
 		<Unit filename="shaders.cpp" />
 		<Unit filename="shaders.hpp" />
 		<Extensions>

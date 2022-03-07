@@ -8,7 +8,7 @@ void make_color_array(int* c_ar);
 int repl_str(char *str, char *orig, char *rep);
 //extern int toggle2();
 bool file_exists(const char * filename);
-void reset_block();
+void reset_block(int region_x, int region_z);
 int init_shader(char* shader_name);
 void toggle2();
 

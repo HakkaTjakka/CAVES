@@ -68,7 +68,7 @@ public:
 
     int remove_block_entities;
 
-    void reset_block();
+    void reset_block(int region_x, int regoin_z);
 
     int old_idx=0;
     int old_sec_no=0;

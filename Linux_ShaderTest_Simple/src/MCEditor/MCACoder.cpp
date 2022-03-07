@@ -168,11 +168,16 @@ void MCACoder::setBlock(const Pos &position, const BlockInfo &info) {
     old_sec_root=sec_root;
 }
 
-void MCACoder::reset_block() {
+void MCACoder::reset_block(int region_x, int region_z) {
     getblock_old_idx=0;
     getblock_old_sec_no=0;
     getblock_old_T=0;
     getblock_old_sec_root=0;
+    chunk_offsetx=region_x*32;
+    chunk_offsetz=region_z*32;;
+    region_xxx=region_x;
+    region_zzz=region_z;
+
 }
 
 BlockInfo MCACoder::getBlock(int x, int z, int y)
