@@ -2,5 +2,5 @@
 ***
 ![clipboard_small](https://github.com/HakkaTjakka/CAVES/blob/main/Linux_ShaderTest_Simple/shader.jpg)
 ***
-![clipboard_small](https://github.com/HakkaTjakka/CAVES/blob/main/Linux_ShaderTest_Simple/shader.jpg)
+![clipboard_small](https://github.com/HakkaTjakka/CAVES/blob/main/Linux_ShaderTest_Simple/shader2.jpg)
 
