@@ -844,7 +844,8 @@ int main_CAVES(int region_x, int region_z, unsigned char* mc, char* shader_name)
         for (int y = 0; y < 256; y++) {
             texture_y[y].display();
             main_sprite.setTexture(texture_y[y].getTexture(),true);
-            m_texture.draw(main_sprite,MyBlendingMode);
+            m_texture.draw(main_sprite);
+//            m_texture.draw(main_sprite,MyBlendingMode);
     //        m_texture.draw(main_sprite,sf::BlendAdd);
             sprite_y[y].setPosition(512,512);
         }
@@ -853,11 +854,12 @@ int main_CAVES(int region_x, int region_z, unsigned char* mc, char* shader_name)
         main_sprite.setTexture(m_texture.getTexture());
         app.draw(main_sprite);
 
+/*
         sprintf(tmp, "tiles/r.%d.%d.png", region_x, region_z);
         mkdir("tiles", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
         m_texture.display();
         m_texture.getTexture().copyToImage().saveToFile(tmp);
-
+*/
         app.setVerticalSyncEnabled(true);
         for (int n=0; n<1; n++) {
             for (int y = 0; y < 256; y++) {
