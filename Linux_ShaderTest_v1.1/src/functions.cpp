@@ -231,3 +231,17 @@ MCEditor* READ_REGION(int region_x, int region_z) {
     return editor;
 }
 
+std::string GetBaseDir(const std::string& filepath)
+{
+    if (filepath.find_last_of("/\\") != std::string::npos)
+        return filepath.substr(0, filepath.find_last_of("/\\"));
+    return "";
+}
+
+std::string GetFileName(const std::string& filepath)
+{
+    if (filepath.find_last_of("/\\") != std::string::npos)
+        return filepath.substr(1+filepath.find_last_of("/\\"),filepath.length());
+    return "";
+}
+

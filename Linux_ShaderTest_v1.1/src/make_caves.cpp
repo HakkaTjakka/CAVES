@@ -7,6 +7,7 @@
 #include "MCEditor/BlockEntity.h"
 #include "MCEditor/MCACoder.h"
 #include <math.h>
+#include <cstring>
 #include <iostream>
 #include <time.h>
 #include <unistd.h>
@@ -30,6 +31,26 @@ int make_caves(char* shader_name) {
     int size_regions=0;
     char tmp[512];
 
+    if (argc_global>2) {
+        if (strcmp(argv_global[1],"repack")==0) {
+            if ( file_exists(argv_global[2]) ) {
+                printf("Repacking %s ",argv_global[2]);
+                if (main_REPACK(argv_global[2])==-1) {
+                    printf("Error repacking %s\n",argv_global[2]);
+                    sf::sleep(sf::seconds(2.0));
+                    return -1;
+                }
+                return 0;
+            } else {
+                printf("File does not exist %s\n",argv_global[2]);
+                return -1;
+            }
+        } else {
+            printf("Syntax error\n");
+            return -1;
+        }
+    }
+
     while (size_regions<60) {
         size_regions++;
         for (region_x=0; region_x<size_regions && MCEDITOR_stop==0; region_x++) {
@@ -38,6 +59,7 @@ int make_caves(char* shader_name) {
                     continue;
                 }
                 sprintf(tmp, "saves/caves/region/r.%d.%d.mca", region_x, region_z);
+
                 if ( file_exists(tmp) ) {
                     printf("File exists, skipping %s\n",tmp);
                     continue;
@@ -1028,3 +1050,67 @@ void update_caves_region(sf::RenderTexture& texture, sf::Sprite& sprite, int tex
     shader_struct_vector[shader_index]->Shader.setUniform("height", texture_index);
     texture.draw(sprite,shader_struct_vector[shader_index]->RenderStates);
 }
+
+int main_REPACK(char* region_filename) {
+    bool nodisp=false;
+    if (file_exists("nodisp.on")) nodisp=true;
+    int load_leeg=0;
+
+    int num;
+    int region_x;
+    int region_z;
+    std::string path=GetBaseDir(std::string() + region_filename);
+    std::string name=GetFileName(std::string() + region_filename);
+
+    if ( (num=sscanf(name.c_str(), "r.%d.%d.mca", &region_x, &region_z))!=2) {
+        printf("Can't sscanf filename: path=%s x=%d y=%d\n",path.c_str(), region_x, region_z);
+        return -1;
+    } else {
+//        printf("sscanf: %s/r.%d.%d.mca\n", path.c_str(), region_x, region_z);
+    }
+
+    if (file_exists(region_filename) ) {
+        printf(" File %s exists.",region_filename);
+        fflush(stdout);
+    } else {
+        printf(" File %s does not exists... \n",region_filename);
+        return -1;
+    }
+
+    MCEditor *editor;
+    editor = new MCEditor(region_x,region_z);
+    editor->mca_coder.reset_block(region_x,region_z);
+    remove_block_entities=0;
+
+    editor->mca_coder.loadMCA(region_filename);
+    printf("Ok. Testing: ");
+
+    MCRegion region(region_x, region_z, 0, 0, 0, 512, 512, 256);
+    BlockInfo*** AX=region.A;
+
+    editor->mca_coder.getBlock_FAST(region);
+    for (int x = 0; x < 512; x++) {
+        BlockInfo** AZ=AX[x];
+        for (int z = 0; z < 512; z++) {
+            BlockInfo* AY=AZ[z];
+            for (int y = 0; y < 256; y++) {
+                BlockInfo bi=AY[y];
+            }
+        }
+    }
+    printf(" Ok.\n");
+
+    editor->mca_coder.current_filename_mca=region_filename;
+
+    if (file_exists(editor->mca_coder.current_filename_mca.c_str())) {
+        char cmd[200];
+        sprintf(cmd,"rm %s",editor->mca_coder.current_filename_mca.c_str());
+        system(cmd);
+    }
+    editor->setRegion(region);
+    printf(" Region ready, returning\n");
+
+    delete editor;
+    return 0;
+}
+

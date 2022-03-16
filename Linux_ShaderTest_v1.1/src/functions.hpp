@@ -12,6 +12,9 @@ void reset_block(int region_x, int region_z);
 int init_shader(char* shader_name);
 void toggle2();
 
+std::string GetBaseDir(const std::string& filepath);
+std::string GetFileName(const std::string& filepath);
+
 int main_CAVES(int region_x, int region_z, unsigned char* mc, char* shader_name);
 int main_CAVES_simple(int region_x, int region_z, unsigned char* mc, char* shader_name);
 
@@ -31,6 +34,7 @@ void terminate_MCEDITOR();
 void delete_shader(int index);
 int read_array(double ARRAY[100][5]);
 void make_distance_array(float d[35][35][35]);
+int main_REPACK(char* region_filename);
 
 extern int argc_global;
 extern char** argv_global;

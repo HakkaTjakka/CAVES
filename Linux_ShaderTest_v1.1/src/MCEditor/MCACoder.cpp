@@ -374,6 +374,8 @@ int MCACoder::loadMCA(const string &file_name_MCA)
 
     printf("Loading %s ", file_name_MCA.c_str());
 
+    fflush(stdout);
+
     if (current_filename_mca != "") saveModification();
 
     FILE *handle = fopen(file_name_MCA.c_str(), "rb");
@@ -423,7 +425,7 @@ int MCACoder::loadMCA(const string &file_name_MCA)
 
 void MCACoder::writeMCA()
 {
-    printf("- Saving %s",current_filename_mca.c_str());
+    printf("- Saving %s ",current_filename_mca.c_str());
     memset(buffer, 0, sizeof(buffer));
 
     ull offset = K4 << 1;
@@ -468,7 +470,7 @@ void MCACoder::writeMCA()
     FILE *handle = fopen(current_filename_mca.c_str(), "wb");
     fwrite(buffer, 1, offset, handle);
     fclose(handle);
-    printf("\n");
+    printf(" ");
 }
 
 node *MCACoder::chunkWithXZ(int x, int z) {

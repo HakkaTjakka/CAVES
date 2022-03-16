@@ -285,7 +285,7 @@ void MCEditor::updateMCA_FAST(const MCRegion &R)
 
     printf("3");
 
-    printf("Save modification: ");
+    printf(" Save modification: ");
     mca_coder.saveModification();
     printf(" Saved.");
 }
