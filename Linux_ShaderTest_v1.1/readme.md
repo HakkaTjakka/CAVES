@@ -6,7 +6,7 @@ In this version you can use the command line option 'repack', like ./make_caves 
 
 https://github.com/HakkaTjakka/CAVES/blob/6b1443e1713f1f65b47534c35d963cc0b60e4db6/Linux_ShaderTest_v1.1/src/make_caves.cpp#L1054
 
-If you need the same function in the Windows version you need to adapt the source yourself, using this as an example. I'm on Ubuntu Linux (4ever).
+If you need the same function in the Windows version you need to adapt the source yourself (see ./src in root), using this as an example. I'm on Ubuntu Linux (4ever).
 Of course i can do it for you on request.
 ***
 For running a Minecraft server on Forge (1.18.1) you need to install Java version 17:
