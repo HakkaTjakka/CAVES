@@ -1,6 +1,8 @@
 # update
 
-In this version you can use the command line option 'repack', like ./make_caves repack region/r.3.4.mca to read and then write a region file where the blocklight & skylight is recalculated (bug in 1.12.2 version). In my current MC 1.12.2 version with Forge 1.12.2 there is no option 'Optimize World' in the world selection menu under the 'Edit' button. (Also see: https://github.com/HakkaTjakka/CAVES/blob/main/Linux_ShaderTest_v1.1/saves/caves/repack.sh)
+In this version you can use the command line option 'repack', like ./make_caves repack region/r.3.4.mca to read and then write a region file where the blocklight & skylight is recalculated (bug in 1.12.2 version). In my current MC 1.12.2 version with Forge 1.12.2 there is no option 'Optimize World' in the world selection menu under the 'Edit' button.
+
+(Also see: https://github.com/HakkaTjakka/CAVES/blob/main/Linux_ShaderTest_v1.1/saves/caves/repack.sh)
 
 https://github.com/HakkaTjakka/CAVES/blob/6b1443e1713f1f65b47534c35d963cc0b60e4db6/Linux_ShaderTest_v1.1/src/make_caves.cpp#L1054
 
