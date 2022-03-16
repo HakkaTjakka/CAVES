@@ -1,3 +1,10 @@
+# update
+
+In this version you can use the command line option 'repack', like ./make_caves repack region/r.3.4.mca to read and then write a region file where the blocklight & skylight is recalculated (bug in 1.12.2 version). In my current MC 1.12.2 version with Forge 1.12.2 there is no option 'Optimize World' in the world selection menu under the 'Edit' button.
+
+If you need the same function in the Windows version you need to adapt the source yourself, using this as an example. I'm on Ubuntu Linux (4ever).
+Of course i can do it for you on request.
+***
 For running a Minecraft server on Forge (1.18.1) you need to install Java version 17:
 
 sudo apt-get install oracle-java17-installer oracle-java17-set-default
