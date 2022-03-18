@@ -633,7 +633,7 @@ int main_CAVES(int region_x, int region_z, unsigned char* mc, char* shader_name)
                                                                     *hoppa=BlockInfo(89, 0, 0, 0);
                                                                 } else {
                                                                     float ch= (var1*var2*var3*75)*(1.0+sin( ((f_x*var1+f_y*var2+f_z*var3)/4 + float(((xxx+xx)*var2-(yyy+y)*var3+(zzz+zz)*var1)))/300 ) );
-                                                                    int c=int( (abs(xxx+xx)+abs(yyy+y)+abs(zzz+zz)+rand()%20 + (f_x+f_y+f_z)/4 + ch ) / (40.0+25.0*var1+15.0*var2+8.0*var3) + 5500 )%4096;
+                                                                    int c=int( (abs(xxx+xx)+abs(yyy+y)+abs(zzz+zz)+rand()%20 + (f_x+f_y+f_z)/4 + ch ) / (20.0+25.0*var1+15.0*var2+15.0*var3) + 5500 )%4096;
                                                                     *hoppa=BlockInfo(95,0,c_ar[c],0);
 //                                                                    col_a[c_ar[c]]++;
                                                                 }
