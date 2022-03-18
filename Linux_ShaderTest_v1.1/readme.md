@@ -1,4 +1,8 @@
 # update
+Failure on loading empty template. Resulting in air 0 instead of stone 0 on loading. My excuse. 
+
+https://github.com/HakkaTjakka/CAVES/blob/65b805315a61d4b24e790b7481f47d8de255a253/Linux_ShaderTest_v1.1/src/make_caves.cpp#L88
+***
 
 In this version you can use the command line option 'repack', like ./make_caves repack region/r.3.4.mca to read and then write a region file where the blocklight & skylight is recalculated (bug in 1.12.2 version). In my current MC 1.12.2 version with Forge 1.12.2 there is no option 'Optimize World' in the world selection menu under the 'Edit' button.
 
