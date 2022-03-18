@@ -80,11 +80,12 @@ unsigned char* region_block;
 
 #define sin get_fast_sin
 bool create_path;
+extern bool load_empty;
 
 int main_CAVES(int region_x, int region_z, unsigned char* mc, char* shader_name) {
     bool nodisp=false;
     if (file_exists("nodisp.on")) nodisp=true;
-    int load_leeg=0;
+//    int load_leeg=0;
     create_path=false;
 
     if (argc_global>1) {
@@ -99,7 +100,7 @@ int main_CAVES(int region_x, int region_z, unsigned char* mc, char* shader_name)
     BlockInfo*** AX=region.A;
     if ( (editor=READ_REGION(region_x,region_z))==NULL ) return -1;
     if (!create_path) {
-        if (!load_leeg) {
+        if (!load_empty) {
             printf("Ok. Testing: ");
             editor->mca_coder.getBlock_FAST(region);
             for (int x = 0; x < 512; x++) {
@@ -400,7 +401,7 @@ int main_CAVES(int region_x, int region_z, unsigned char* mc, char* shader_name)
     cp_texture.create(main_texture_pointer->getSize().x,main_texture_pointer->getSize().y);
     sf::Sprite cp_sprite;
 
-    bool cpu=false;
+    bool cpu=true;
     if (create_path) cpu=false;
 
     if (cpu) {
@@ -632,7 +633,7 @@ int main_CAVES(int region_x, int region_z, unsigned char* mc, char* shader_name)
                                                                     *hoppa=BlockInfo(89, 0, 0, 0);
                                                                 } else {
                                                                     float ch= (var1*var2*var3*75)*(1.0+sin( ((f_x*var1+f_y*var2+f_z*var3)/4 + float(((xxx+xx)*var2-(yyy+y)*var3+(zzz+zz)*var1)))/300 ) );
-                                                                    int c=int( (abs(xxx+xx)+abs(yyy+y)+abs(zzz+zz)+rand()%20 + (f_x+f_y+f_z)/4 + ch ) / (40.0+8.0*var1+8.0*var2+8.0*var3) + 5500 )%4096;
+                                                                    int c=int( (abs(xxx+xx)+abs(yyy+y)+abs(zzz+zz)+rand()%20 + (f_x+f_y+f_z)/4 + ch ) / (40.0+25.0*var1+15.0*var2+8.0*var3) + 5500 )%4096;
                                                                     *hoppa=BlockInfo(95,0,c_ar[c],0);
 //                                                                    col_a[c_ar[c]]++;
                                                                 }
@@ -672,7 +673,7 @@ int main_CAVES(int region_x, int region_z, unsigned char* mc, char* shader_name)
 
     int pixel_count_t=0,match_plus_t=0,no_match_t=0,id_count_t=0,draws_t=0;
 
-    bool gpu=true;
+    bool gpu=false;
 
     if (create_path) {
         int match_plus_t=0;
@@ -1054,7 +1055,7 @@ void update_caves_region(sf::RenderTexture& texture, sf::Sprite& sprite, int tex
 int main_REPACK(char* region_filename) {
     bool nodisp=false;
     if (file_exists("nodisp.on")) nodisp=true;
-    int load_leeg=0;
+//    int load_leeg=0;
 
     int num;
     int region_x;

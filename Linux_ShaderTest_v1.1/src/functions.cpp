@@ -183,8 +183,9 @@ int read_array(double ARRAY[100][5]) {
     return 1;
 }
 
+bool load_empty=false;
+
 MCEditor* READ_REGION(int region_x, int region_z) {
-    bool load_empty=false;
 
     char region_filename[1024];
     sprintf(region_filename, "saves/caves/region/r.%d.%d.mca", region_x, region_z);
