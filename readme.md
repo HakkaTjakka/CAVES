@@ -1,6 +1,8 @@
 # CAVES
 ***
-# update
+# update(s)
+
+(Not working as expected....), try to switch all light to 15..?
 
 In the CAVES/Linux_ShaderTest_v1.1/ version you can use the command line option 'repack', like ./make_caves repack region/r.3.4.mca to read and then write a region file where the blocklight & skylight is recalculated (bug in 1.12.2 version). In my current MC 1.12.2 version with Forge 1.12.2 there is no option 'Optimize World' in the world selection menu under the 'Edit' button.
 
@@ -10,6 +12,16 @@ https://github.com/HakkaTjakka/CAVES/blob/6b1443e1713f1f65b47534c35d963cc0b60e4d
 
 If you need the same function in the Windows version you need to adapt the source yourself (see ./src in root), using this as an example. I'm on Ubuntu Linux (4ever).
 Of course i can do it for you on request.
+***
+Attempted to create Bauwercam movement data for following exploding and not yet exploded tnt. (See ./teleport.sh) Output appended at out.txt (move to .minecraft/bauwercam)
+
+Walk: x=  7.00 y= 14.00 z= 21.00 tnt=1 air=0 d= 1 dist=  1.00 n=3349 yaw=  52.4 pitch=  -9.7 --  10360.00/232.00/10072.00/-9.72/52.43/0.0/70.0
+
+Walk: x=  6.00 y= 12.00 z= 18.00 tnt=1 air=0 d= 2 dist=  7.48 n=3350 yaw=  79.7 pitch=   0.8 --  10344.00/200.00/10024.00/0.79/79.71/0.0/70.0
+
+Walk: x=  5.00 y= 10.00 z= 15.00 tnt=1 air=0 d= 2 dist=  7.48 n=3351 yaw=  44.8 pitch=  -2.5 --  10328.00/168.00/9976.00/-2.45/44.85/0.0/70.0
+
+Walk: x=  9.00 y= 11.00 z= 17.33 tnt=1 air=0 d= 3 dist= 14.21 n=3352 yaw=  18.7 pitch=  -4.9 --  10392.00/184.00/10013.33/-4.89/18.70/0.0/70.0
 ***
 
 
