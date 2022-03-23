@@ -156,7 +156,9 @@ void MCEditor::initBlocks(const MCRegion &R)
                 ui id = bi.id | (bi.add << 8);
                 AY_blocks[k] = id;
                 AY_blockdata[k] = bi.data;
-                AY_blocklight[k] = bi.block_light;
+//noumoe
+//                AY_blocklight[k] = bi.block_light;
+                AY_blocklight[k] = 0;
             }
         }
     }

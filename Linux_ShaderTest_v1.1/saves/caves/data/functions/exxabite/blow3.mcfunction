@@ -1,0 +1,5 @@
+setblock ~ ~ ~ sand 0 replace
+#fill ~-1 ~-1 ~-1 ~1 ~1 ~1 air 0 replace stone 0
+#fill ~-1 ~-1 ~-1 ~1 ~1 ~1 repeating_command_block 0 keep {Command:"/function exxabite:blow",auto:1b}
+#fill ~-1 ~1 ~-1 ~1 ~1 ~1 repeating_command_block 0 keep {Command:"/function exxabite:blow",auto:1b}
+

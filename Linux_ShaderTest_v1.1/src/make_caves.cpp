@@ -13,14 +13,20 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <map>
+#include <vector>
 
 #include <SFML/System/Thread.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include "shaders.hpp"
 #include "functions.hpp"
+#include <algorithm>
 
 //unsigned char region_block[512*256*512*4];
+
+bool fix=false;
+bool teleport=false;
 
 int make_caves(char* shader_name) {
     mkdir("saves", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
@@ -32,6 +38,14 @@ int make_caves(char* shader_name) {
     char tmp[512];
 
     if (argc_global>2) {
+        if (argc_global>3) {
+            if (strcmp(argv_global[3],"fix")==0) {
+                fix=true;
+            } else if (strcmp(argv_global[3],"teleport")==0) {
+                teleport=true;
+            }
+        }
+
         if (strcmp(argv_global[1],"repack")==0) {
             if ( file_exists(argv_global[2]) ) {
                 printf("Repacking %s ",argv_global[2]);
@@ -1052,6 +1066,91 @@ void update_caves_region(sf::RenderTexture& texture, sf::Sprite& sprite, int tex
     texture.draw(sprite,shader_struct_vector[shader_index]->RenderStates);
 }
 
+int x_chunk,y_chunk,z_chunk;
+
+struct Chunk_struct
+{
+    int x, z, y;
+    int dynamite, air;
+
+//    Chunk_struct() {}
+//    Chunk_struct(int x_, int z_, int y_, int dynamite_ , int air_):
+//        x(x_), z(z_), y(y_) , dynamite(dynamite_) , air(air_) {};
+
+/*
+    bool operator < (const Chunk_struct &B) const {
+
+        if (air==1 && B.air==0) return true;
+
+        int diff_x = x - x_chunk;
+        int diff_y = y - y_chunk;
+        int diff_z = z - z_chunk;
+
+        int Bdiff_x = B.x - x_chunk;
+        int Bdiff_y = B.y - y_chunk;
+        int Bdiff_z = B.z - z_chunk;
+
+        return diff_x * diff_x + diff_y * diff_y + diff_z * diff_z < Bdiff_x * Bdiff_x + Bdiff_y * Bdiff_y + Bdiff_z * Bdiff_z;
+    }
+*/
+
+/*
+    bool operator < (const Chunk_struct &B) const
+    {
+        int ax = x >> 4, bx = B.x >> 4;
+        if (ax != bx) {
+            return ax < bx;
+        }
+        else {
+            int az = z >> 4, bz = B.z >> 4;
+            if (az != bz) {
+                return az < bz;
+            } else {
+                int ay=y >> 4, by=B.y >> 4;
+                return ay < by;
+            }
+        }
+    }
+
+    bool operator == (const Chunk_struct &B) const
+    {
+        return x == B.x && z == B.z && y == B.y;
+    }
+*/
+};
+
+bool compareChunk(const Chunk_struct &A, const Chunk_struct &B)
+{
+        int Ap=(A.air == 0) * 100000;
+        int Bp=(B.air == 0) * 100000;
+
+//        if (A.dynamite == 1 ) p--;
+//        if (A.air == 1 && B.air == 0) p--;
+
+        int Adiff_x = A.x - x_chunk;
+        int Adiff_y = A.y - y_chunk;
+        int Adiff_z = A.z - z_chunk;
+
+        int Bdiff_x = B.x - x_chunk;
+        int Bdiff_y = B.y - y_chunk;
+        int Bdiff_z = B.z - z_chunk;
+
+        return Ap + Adiff_x * Adiff_x + Adiff_y * Adiff_y + Adiff_z * Adiff_z < Bp + Bdiff_x * Bdiff_x + Bdiff_y * Bdiff_y + Bdiff_z * Bdiff_z;
+}
+
+
+
+/*
+struct Chunk_map_struct
+{
+    bool dynamite, air;
+
+    Chunk_map_struct() {}
+    Chunk_map_struct(bool dynamite_ , bool air_) : dynamite(dynamite_) , air(air_) {};
+};
+*/
+
+
 int main_REPACK(char* region_filename) {
     bool nodisp=false;
     if (file_exists("nodisp.on")) nodisp=true;
@@ -1090,12 +1189,299 @@ int main_REPACK(char* region_filename) {
     BlockInfo*** AX=region.A;
 
     editor->mca_coder.getBlock_FAST(region);
-    for (int x = 0; x < 512; x++) {
-        BlockInfo** AZ=AX[x];
-        for (int z = 0; z < 512; z++) {
-            BlockInfo* AY=AZ[z];
-            for (int y = 0; y < 256; y++) {
-                BlockInfo bi=AY[y];
+
+
+    if (teleport) {
+        std::vector<Chunk_struct> Chunk_vector;
+        std::vector<Chunk_struct> Chunk_vector_move;
+//        std::vector<struct Chunk_struct> Chunk_vector_interpolate;
+//        std::map<int, struct Chunk_map_struct> Chunk_map;
+
+        struct Chunk_struct OneChunk;
+//        struct Chunk_map_struct OneChunk_map;
+
+        int num_chunks_dynamite = 0;
+        int num_chunks_air = 0;
+        int num_chunks_both = 0;
+        int num_chunks_none = 0;
+        int num_chunks = 0;
+
+        printf("\n");
+
+        bool first = true;
+        bool first2 = true;
+
+        int index_first=-1;
+        int index_first2=-1;
+        int index=-1;
+
+        for (int chunk_x = 0; chunk_x < 32; chunk_x++) {
+            for (int chunk_z = 0; chunk_z < 32; chunk_z++) {
+                for (int chunk_y = 0; chunk_y < 16; chunk_y++) {
+
+                    int dynamite = 0, air = 0;
+
+                    for (int x = 0; x < 16; x++ ) {
+                        BlockInfo** AZ=AX[x+chunk_x*16];
+                        for (int z = 0; z < 16; z++ ) {
+                            BlockInfo* AY=AZ[z+chunk_z*16];
+                            for (int y = 0; y < 16; y++ ) {
+                                BlockInfo bi=AY[y+chunk_y*16];
+                                if (bi.id==46) dynamite++;
+                                else if (bi.id==0) air++;
+                            }
+                        }
+                    }
+                    OneChunk.x=chunk_x;
+                    OneChunk.y=chunk_y;
+                    OneChunk.z=chunk_z;
+                    if (dynamite > 0) {
+                        OneChunk.dynamite=1;
+//                        OneChunk_map.dynamite=true;
+                        num_chunks_dynamite++;
+                    } else {
+                        OneChunk.dynamite=0;
+//                        OneChunk_map.dynamite=false;
+                    }
+                    if (air > 0) {
+                        OneChunk.air=1;
+//                        OneChunk_map.air=true;
+                        num_chunks_air++;
+                    } else {
+                        OneChunk.air=0;
+//                        OneChunk_map.air=false;
+                    }
+                    if (dynamite > 0 && air > 0) num_chunks_both++;
+                    else if (dynamite == 0 && air == 0) num_chunks_none++;
+                    num_chunks++;
+
+                    if (dynamite > 0) {
+                        printf("Move to: x=%2d y=%2d z=%2d tnt=%d air=%d n=%d",
+                                OneChunk.x, OneChunk.y, OneChunk.z,
+                                OneChunk.dynamite, OneChunk.air,Chunk_vector.size());
+                        Chunk_vector.push_back(OneChunk);
+                        index++;
+                    }
+
+                    if (first) {
+                        if (dynamite > 0 && air > 0) {
+                            first=false;
+                            index_first=index;
+                            printf(" first");
+                        }
+                    }
+                    if (first2) {
+                        if (dynamite > 0) {
+                            first2=false;
+                            index_first2=index;
+                            printf(" first2");
+                        }
+                    }
+                    if (dynamite > 0) {
+                        printf("\n");
+                    }
+//                    int what=(dynamite>0)*2+(air>0);
+//                    Chunk_map.insert(std::make_pair( chunk_x + 32 * chunk_y + 32 * 16 * chunk_z + 32 * 16 * 32 * what, OneChunk_map));
+
+                }
+//                printf("x=%2d z=%2d   tot: %5d   tnt: %5d   air: %5d   both: %5d   none: %5d\r",
+//                       chunk_x, chunk_z, num_chunks, num_chunks_dynamite, num_chunks_air, num_chunks_both, num_chunks_none);
+//                fflush(stdout);
+            }
+        }
+        printf("tot: %5d   tnt: %5d   air: %5d   both: %5d   none: %5d\n",
+               num_chunks, num_chunks_dynamite, num_chunks_air, num_chunks_both, num_chunks_none);
+        printf("\n");
+//        for (auto u : Chunk_vector) {
+//            OneChunk = u;
+//            printf("2) Move to: x=%2d y=%2d z=%2d tnt=%d air=%d\n",
+//                    OneChunk.x, OneChunk.y, OneChunk.z,
+//                    OneChunk.dynamite, OneChunk.air);
+//        }
+        if (first == true && first2 == false) {
+            index_first=index_first2;
+            first = false;
+        }
+        if (first == false) {
+            printf("Move to: x=%2d y=%2d z=%2d tnt=%d air=%d n=%d\n",
+                    Chunk_vector[index_first].x, Chunk_vector[index_first].y, Chunk_vector[index_first].z,
+                    Chunk_vector[index_first].dynamite, Chunk_vector[index_first].air, Chunk_vector.size() );
+            Chunk_vector_move.push_back(Chunk_vector[index_first]);
+//            int n=Chunk_vector.size();
+
+//            Chunk_vector[index_first].dynamite=0;
+            x_chunk = Chunk_vector[index_first].x;
+            y_chunk = Chunk_vector[index_first].y;
+            z_chunk = Chunk_vector[index_first].z;
+
+            while (Chunk_vector.size() > 1) {
+//            while (n > 1) {
+//                printf("here 3\n");
+
+//                Chunk_vector.erase(Chunk_vector.begin());
+                Chunk_vector.erase(Chunk_vector.begin()+index_first);
+//                if (Chunk_vector.size()>1)
+//                    sort(Chunk_vector.begin(), Chunk_vector.end());
+                std::sort(Chunk_vector.begin(), Chunk_vector.end(), compareChunk);
+//                std::sort(Chunk_vector.begin(), Chunk_vector.begin()+n, compareChunk);
+//                n--;
+                index_first=0;
+                printf("Move to: x=%2d y=%2d z=%2d tnt=%d air=%d n=%d\n",
+                        Chunk_vector[0].x, Chunk_vector[0].y, Chunk_vector[0].z,
+                        Chunk_vector[0].dynamite, Chunk_vector[0].air,Chunk_vector.size());
+//                printf("here 1\n");
+//                OneChunk.x=Chunk_vector[0].x;
+//                OneChunk.y=Chunk_vector[0].y;
+//                OneChunk.z=Chunk_vector[0].z;
+//                OneChunk.dynamite=Chunk_vector[0].dynamite;
+//                OneChunk.air=Chunk_vector[0].air;
+                Chunk_vector_move.push_back(Chunk_vector[0]);
+//                Chunk_vector_move.push_back(OneChunk);
+//                printf("here 2\n");
+                for (auto u : Chunk_vector) {
+                    if ( abs(u.x-x_chunk) <= 1 && abs(u.y-y_chunk) <= 1 && abs(u.z-z_chunk) <= 1 ) {
+//                    if ( abs(u.x-x_chunk) + abs(u.y-y_chunk) + abs(u.z-z_chunk) == 1 ) {
+                        u.air = 1;
+                    }
+                }
+                x_chunk = Chunk_vector[0].x;
+                y_chunk = Chunk_vector[0].y;
+                z_chunk = Chunk_vector[0].z;
+//                Chunk_vector[0].dynamite=0;
+            }
+//            printf("Move to: x=%2d y=%2d z=%2d tnt=%d air=%d\n",
+//                    Chunk_vector[index_first].x, Chunk_vector[index_first].y, Chunk_vector[index_first].z,
+//                    Chunk_vector[index_first].dynamite, Chunk_vector[index_first].air);
+//            Chunk_vector_move.push_back(Chunk_vector[index_first]);
+
+            x_chunk=Chunk_vector_move[0].x;
+            y_chunk=Chunk_vector_move[0].y;
+            z_chunk=Chunk_vector_move[0].z;
+
+            bool start=true;
+            float fx,prev_x=0;
+            float fy,prev_y=0;
+            float fz,prev_z=0;
+            int t=0;
+            float prev_yaw=0;
+            float prev_pitch=0;
+
+            char line[1000];
+
+            FILE* f=fopen("out.txt","a");
+
+            for (index=1; index<Chunk_vector_move.size(); index++ ) {
+/*
+                printf("From: x=%3d    y=%3d    z=%3d    tnt=%d air=%d\n",
+                        Chunk_vector_move[index-1].x*16, Chunk_vector_move[index-1].y*16, Chunk_vector_move[index-1].z*16,
+                        Chunk_vector_move[index-1].dynamite, Chunk_vector_move[index-1].air);
+                printf("To:   x=%3d    y=%3d    z=%3d    tnt=%d air=%d\n",
+                        Chunk_vector_move[index].x*16, Chunk_vector_move[index].y*16, Chunk_vector_move[index].z*16,
+                        Chunk_vector_move[index].dynamite, Chunk_vector_move[index].air);
+*/
+                int d_x=(Chunk_vector_move[index].x - x_chunk);
+                int d_y=(Chunk_vector_move[index].y - y_chunk);
+                int d_z=(Chunk_vector_move[index].z - z_chunk);
+                float dist=sqrt((float)( d_x*d_x + d_y*d_y + d_z*d_z) );
+
+                int d=int(sqrt(dist));
+//                int d=int(dist);
+
+                for (int n=0; n<=d; n++) {
+                    fx=(float)x_chunk + (float)d_x*(float)n/d;
+                    fy=(float)y_chunk + (float)d_y*(float)n/d;
+                    fz=(float)z_chunk + (float)d_z*(float)n/d;
+                    if (start || n>0) {
+                        if (start == false) {
+                            float yaw=atan2( -(fx-prev_x), (fz-prev_z) );
+                            float pitch=atan2( sqrt( (fx-prev_x)*(fx-prev_x) + (fz-prev_z)*(fz-prev_z) ), (fy-prev_y) );
+                            yaw=(prev_yaw*3+yaw)/4;
+                            pitch=(prev_pitch*3+pitch)/4;
+                            prev_yaw=yaw;
+                            prev_pitch=pitch;
+
+                            printf("yaw=%6.1f pitch=%6.1f", yaw*180.0/M_PI, pitch*180.0/M_PI-90.0);
+//                            printf("%.2f/%.2f/0.0/70.0\n", pitch*180.0/M_PI-90.0, yaw*180.0/M_PI);
+                            printf(" --  %s%.2f/%.2f/0.0/70.0\n", line, pitch*180.0/M_PI-90.0, yaw*180.0/M_PI);
+                            fprintf(f,"%s%.2f/%.2f/0.0/70.0\n", line, pitch*180.0/M_PI-90.0, yaw*180.0/M_PI);
+                        }
+                        start = false;
+                        printf("Walk: x=%6.2f y=%6.2f z=%6.2f tnt=%d air=%d d=%2d dist=%6.2f n=%4d ",
+                                fx, fy, fz,
+                                Chunk_vector_move[index].dynamite, Chunk_vector_move[index].air, d, dist, t);
+                        t++;
+//                        printf("%.2f/%.2f/%.2f/", region_x*512+fx*16, fy*16, region_z*512+fz*16);
+                        sprintf(line,"%.2f/%.2f/%.2f/", region_x*512+fx*16+8, fy*16+8, region_z*512+fz*16+8);
+
+                        if ( ! ( n==d && index==Chunk_vector_move.size()-1 ) ) {
+                            prev_x=fx; prev_y=fy; prev_z=fz;
+                        }
+                    }
+                }
+                x_chunk=Chunk_vector_move[index].x;
+                y_chunk=Chunk_vector_move[index].y;
+                z_chunk=Chunk_vector_move[index].z;
+//                printf("\n");
+            }
+            if (start == false) {
+                float yaw=atan2( -(fx-prev_x), (fz-prev_z) );
+                float pitch=atan2( sqrt( (fx-prev_x)*(fx-prev_x) + (fz-prev_z)*(fz-prev_z) ), (fy-prev_y) );
+                yaw=(prev_yaw*3+yaw)/4;
+                pitch=(prev_pitch*3+pitch)/4;
+//                printf("yaw=%6.2f pitch=%6.2f\n", yaw*180.0/M_PI, pitch*180.0/M_PI-90.0);
+//                printf("%.2f/%.2f/0.0/70.0\n", pitch*180.0/M_PI-90.0, yaw*180.0/M_PI);
+                printf("yaw=%6.1f pitch=%6.1f", yaw*180.0/M_PI, pitch*180.0/M_PI-90.0);
+                printf(" --  %s%.2f/%.2f/0.0/70.0\n", line, pitch*180.0/M_PI-90.0, yaw*180.0/M_PI);
+                fprintf(f,"%s%.2f/%.2f/0.0/70.0\n", line, pitch*180.0/M_PI-90.0, yaw*180.0/M_PI);
+
+            }
+            fclose(f);
+        }
+//        std::map<int, struct Chunk_map_struct>::iterator it_Chunk_map;
+//        bool found=false;
+        // find first tnt + air
+//        it_Chunk_map=Chunk_map.lower_bound(3*32*16*32);
+//        if ( it_Chunk_map != Chunk_map.end()) {
+//        }
+//        for (it_Chunk_map = Chunk_map.begin(); it_Chunk_map != Chunk_map.end(); it_Chunk_map++) {
+//        }
+
+
+
+
+        delete editor;
+        return 0;
+    }
+
+
+
+    if (fix) {
+        for (int x = 0; x < 512; x++) {
+            BlockInfo** AZ=AX[x];
+            for (int z = 0; z < 512; z++) {
+                BlockInfo* AY=AZ[z];
+                for (int y = 0; y < 256; y++) {
+                    BlockInfo bi=AY[y];
+                    if (y<3) AY[y]=BlockInfo(7,0,0,0);
+                    else if (bi.id==8 || bi.id==9 || bi.id==137 || bi.id==210) AY[y]=BlockInfo();
+//                    if (!(rand()%4)) if (!(rand()%(750+250*y)) && y<10 && y>4 && AY[y].id==0) AY[y]=BlockInfo(89,0,0,0);
+                }
+                if (AX[x][z][3].id==89 && AX[x][z][4].id==0) AX[x][z][3]=BlockInfo();
+/*
+                if (AY[3].id==0) {
+                    if (!(rand()%1000)) AY[2]=BlockInfo(89,0,0,0);
+                    else AY[3]=BlockInfo(8,0,0,0);
+
+                    if (x>0  ) { int id=AX[x-1][z][3].id;  if (id==95 || id==1) AX[x-1][z][3]=BlockInfo(89,0,0,0); }
+                    if (x<511) { int id=AX[x+1][z][3].id;  if (id==95 || id==1) AX[x+1][z][3]=BlockInfo(89,0,0,0); }
+                    if (z>0  ) { int id=AX[x][z-1][3].id;  if (id==95 || id==1) AX[x][z-1][3]=BlockInfo(89,0,0,0); }
+                    if (z<511) { int id=AX[x][z+1][3].id;  if (id==95 || id==1) AX[x][z+1][3]=BlockInfo(89,0,0,0); }
+
+                }
+*/
+//                if (!(rand()%3000)) AY[3]=BlockInfo(89,0,0,0);
+//                if (!(rand()%3000)) AY[2]=BlockInfo(89,0,0,0);
+//                else if ( AY[2].id==7 || AY[2].id==251 || AY[2].id==8 || AY[2].id==9 || AY[2].id==0 ) AY[2]=BlockInfo(251,0,15,0);
             }
         }
     }

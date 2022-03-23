@@ -98,7 +98,7 @@
 	<GL/glut.h>
 	"functions.hpp"
 
-1647606325 source:/home/pacman/pacman/Linux/src/make_caves.cpp
+1648071384 source:/home/pacman/pacman/Linux/src/make_caves.cpp
 	<curses.h>
 	"MCEditor/MCEditor.h"
 	"MCEditor/BlockEntity.h"
@@ -110,11 +110,14 @@
 	<unistd.h>
 	<sys/types.h>
 	<sys/stat.h>
+	<map>
+	<vector>
 	<SFML/System/Thread.hpp>
 	<SFML/Graphics.hpp>
 	<SFML/Graphics/Sprite.hpp>
 	"shaders.hpp"
 	"functions.hpp"
+	<algorithm>
 
 1646589749 /home/pacman/pacman/Linux/src/MCEditor/MCEditor.h
 	"globals.h"
@@ -157,7 +160,7 @@
 	<algorithm>
 	"globals.h"
 
-1647456106 source:/home/pacman/pacman/Linux/src/MCEditor/MCEditor.cpp
+1647894717 source:/home/pacman/pacman/Linux/src/MCEditor/MCEditor.cpp
 	"MCEditor.h"
 	<vector>
 	<algorithm>
