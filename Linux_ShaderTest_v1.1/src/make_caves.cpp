@@ -1066,11 +1066,10 @@ void update_caves_region(sf::RenderTexture& texture, sf::Sprite& sprite, int tex
     texture.draw(sprite,shader_struct_vector[shader_index]->RenderStates);
 }
 
-int x_chunk,y_chunk,z_chunk;
-
 struct Chunk_struct
 {
     int x, z, y;
+    int avg_x, avg_y, avg_z;
     int dynamite, air;
 
 //    Chunk_struct() {}
@@ -1119,23 +1118,30 @@ struct Chunk_struct
 */
 };
 
+int x_chunk,y_chunk,z_chunk;
+int x_chunk_sub,y_chunk_sub,z_chunk_sub;
+
 bool compareChunk(const Chunk_struct &A, const Chunk_struct &B)
 {
-        int Ap=(A.air == 0) * 100000;
-        int Bp=(B.air == 0) * 100000;
+//        int Ap=(A.air == 0) * 1000000;
+//        int Bp=(B.air == 0) * 1000000;
+        int Ap=(A.air == 0);
+        int Bp=(B.air == 0);
 
 //        if (A.dynamite == 1 ) p--;
 //        if (A.air == 1 && B.air == 0) p--;
 
-        int Adiff_x = A.x - x_chunk;
-        int Adiff_y = A.y - y_chunk;
-        int Adiff_z = A.z - z_chunk;
+        int Adiff_x = (A.x*16 + A.avg_x) - (x_chunk*16 + x_chunk_sub);
+        int Adiff_y = (A.y*16 + A.avg_y) - (y_chunk*16 + y_chunk_sub);
+        int Adiff_z = (A.z*16 + A.avg_z) - (z_chunk*16 + z_chunk_sub);
 
-        int Bdiff_x = B.x - x_chunk;
-        int Bdiff_y = B.y - y_chunk;
-        int Bdiff_z = B.z - z_chunk;
+        int Bdiff_x = (B.x*16 + B.avg_x) - (x_chunk*16 + x_chunk_sub);
+        int Bdiff_y = (B.y*16 + B.avg_y) - (y_chunk*16 + y_chunk_sub);
+        int Bdiff_z = (B.z*16 + B.avg_z) - (z_chunk*16 + z_chunk_sub);
 
-        return Ap + Adiff_x * Adiff_x + Adiff_y * Adiff_y + Adiff_z * Adiff_z < Bp + Bdiff_x * Bdiff_x + Bdiff_y * Bdiff_y + Bdiff_z * Bdiff_z;
+        if (Ap != Bp) return Ap < Bp;
+        else return Adiff_x * Adiff_x + Adiff_y * Adiff_y + Adiff_z * Adiff_z < Bdiff_x * Bdiff_x + Bdiff_y * Bdiff_y + Bdiff_z * Bdiff_z;
+//        return Ap + Adiff_x * Adiff_x + Adiff_y * Adiff_y + Adiff_z * Adiff_z < Bp + Bdiff_x * Bdiff_x + Bdiff_y * Bdiff_y + Bdiff_z * Bdiff_z;
 }
 
 
@@ -1170,7 +1176,7 @@ int main_REPACK(char* region_filename) {
     }
 
     if (file_exists(region_filename) ) {
-        printf(" File %s exists.",region_filename);
+        printf(" File %s exists. ",region_filename);
         fflush(stdout);
     } else {
         printf(" File %s does not exists... \n",region_filename);
@@ -1220,21 +1226,36 @@ int main_REPACK(char* region_filename) {
                 for (int chunk_y = 0; chunk_y < 16; chunk_y++) {
 
                     int dynamite = 0, air = 0;
-
+                    int avg_tnt_x=0;
+                    int avg_tnt_y=0;
+                    int avg_tnt_z=0;
                     for (int x = 0; x < 16; x++ ) {
                         BlockInfo** AZ=AX[x+chunk_x*16];
                         for (int z = 0; z < 16; z++ ) {
                             BlockInfo* AY=AZ[z+chunk_z*16];
                             for (int y = 0; y < 16; y++ ) {
                                 BlockInfo bi=AY[y+chunk_y*16];
-                                if (bi.id==46) dynamite++;
+                                if (bi.id==46) {
+                                    dynamite++;
+                                    avg_tnt_x+=x;
+                                    avg_tnt_y+=y;
+                                    avg_tnt_z+=z;
+                                }
                                 else if (bi.id==0) air++;
                             }
                         }
                     }
+                    if (dynamite>0) {
+                        avg_tnt_x=avg_tnt_x/dynamite;
+                        avg_tnt_y=avg_tnt_y/dynamite;
+                        avg_tnt_z=avg_tnt_z/dynamite;
+                    }
                     OneChunk.x=chunk_x;
                     OneChunk.y=chunk_y;
                     OneChunk.z=chunk_z;
+                    OneChunk.avg_x=avg_tnt_x;
+                    OneChunk.avg_y=avg_tnt_y;
+                    OneChunk.avg_z=avg_tnt_z;
                     if (dynamite > 0) {
                         OneChunk.dynamite=1;
 //                        OneChunk_map.dynamite=true;
@@ -1256,8 +1277,10 @@ int main_REPACK(char* region_filename) {
                     num_chunks++;
 
                     if (dynamite > 0) {
-                        printf("Move to: x=%2d y=%2d z=%2d tnt=%d air=%d n=%d",
-                                OneChunk.x, OneChunk.y, OneChunk.z,
+                        printf("Move to: x=%3d y=%3d z=%3d tnt=%d air=%d n=%d",
+                                OneChunk.x*16+OneChunk.avg_x,
+                                OneChunk.y*16+OneChunk.avg_y,
+                                OneChunk.z*16+OneChunk.avg_z,
                                 OneChunk.dynamite, OneChunk.air,Chunk_vector.size());
                         Chunk_vector.push_back(OneChunk);
                         index++;
@@ -1302,9 +1325,12 @@ int main_REPACK(char* region_filename) {
             index_first=index_first2;
             first = false;
         }
+        int cvs=Chunk_vector.size();
         if (first == false) {
-            printf("Move to: x=%2d y=%2d z=%2d tnt=%d air=%d n=%d\n",
-                    Chunk_vector[index_first].x, Chunk_vector[index_first].y, Chunk_vector[index_first].z,
+            printf("Move to: x=%3d y=%3d z=%3d tnt=%d air=%d n=%d\n",
+                    Chunk_vector[index_first].x*16+Chunk_vector[index_first].avg_x,
+                    Chunk_vector[index_first].y*16+Chunk_vector[index_first].avg_y,
+                    Chunk_vector[index_first].z*16+Chunk_vector[index_first].avg_z,
                     Chunk_vector[index_first].dynamite, Chunk_vector[index_first].air, Chunk_vector.size() );
             Chunk_vector_move.push_back(Chunk_vector[index_first]);
 //            int n=Chunk_vector.size();
@@ -1313,6 +1339,9 @@ int main_REPACK(char* region_filename) {
             x_chunk = Chunk_vector[index_first].x;
             y_chunk = Chunk_vector[index_first].y;
             z_chunk = Chunk_vector[index_first].z;
+            x_chunk_sub = Chunk_vector[index_first].avg_x;
+            y_chunk_sub = Chunk_vector[index_first].avg_y;
+            z_chunk_sub = Chunk_vector[index_first].avg_z;
 
             while (Chunk_vector.size() > 1) {
 //            while (n > 1) {
@@ -1326,8 +1355,10 @@ int main_REPACK(char* region_filename) {
 //                std::sort(Chunk_vector.begin(), Chunk_vector.begin()+n, compareChunk);
 //                n--;
                 index_first=0;
-                printf("Move to: x=%2d y=%2d z=%2d tnt=%d air=%d n=%d\n",
-                        Chunk_vector[0].x, Chunk_vector[0].y, Chunk_vector[0].z,
+                printf("Move to: x=%3d y=%3d z=%3d tnt=%d air=%d n=%d\n",
+                        Chunk_vector[0].x*16+Chunk_vector[0].avg_x,
+                        Chunk_vector[0].y*16+Chunk_vector[0].avg_y,
+                        Chunk_vector[0].z*16+Chunk_vector[0].avg_z,
                         Chunk_vector[0].dynamite, Chunk_vector[0].air,Chunk_vector.size());
 //                printf("here 1\n");
 //                OneChunk.x=Chunk_vector[0].x;
@@ -1338,15 +1369,25 @@ int main_REPACK(char* region_filename) {
                 Chunk_vector_move.push_back(Chunk_vector[0]);
 //                Chunk_vector_move.push_back(OneChunk);
 //                printf("here 2\n");
+
+/*
                 for (auto u : Chunk_vector) {
-                    if ( abs(u.x-x_chunk) <= 1 && abs(u.y-y_chunk) <= 1 && abs(u.z-z_chunk) <= 1 ) {
+//                    if ( abs(u.x-x_chunk) <= 1 && abs(u.y-y_chunk) <= 1 && abs(u.z-z_chunk) <= 1 ) {
+                    if ( abs(u.x*16 + u.avg_x - x_chunk*16 - x_chunk_sub) <= 16 &&
+                         abs(u.y*16 + u.avg_y - y_chunk*16 - y_chunk_sub) <= 16 &&
+                         abs(u.z*16 + u.avg_z - z_chunk*16 - z_chunk_sub) <= 16 ) {
 //                    if ( abs(u.x-x_chunk) + abs(u.y-y_chunk) + abs(u.z-z_chunk) == 1 ) {
                         u.air = 1;
                     }
                 }
+*/
                 x_chunk = Chunk_vector[0].x;
                 y_chunk = Chunk_vector[0].y;
                 z_chunk = Chunk_vector[0].z;
+                x_chunk_sub = Chunk_vector[0].avg_x;
+                y_chunk_sub = Chunk_vector[0].avg_y;
+                z_chunk_sub = Chunk_vector[0].avg_z;
+
 //                Chunk_vector[0].dynamite=0;
             }
 //            printf("Move to: x=%2d y=%2d z=%2d tnt=%d air=%d\n",
@@ -1354,9 +1395,12 @@ int main_REPACK(char* region_filename) {
 //                    Chunk_vector[index_first].dynamite, Chunk_vector[index_first].air);
 //            Chunk_vector_move.push_back(Chunk_vector[index_first]);
 
-            x_chunk=Chunk_vector_move[0].x;
-            y_chunk=Chunk_vector_move[0].y;
-            z_chunk=Chunk_vector_move[0].z;
+            x_chunk = Chunk_vector_move[0].x;
+            y_chunk = Chunk_vector_move[0].y;
+            z_chunk = Chunk_vector_move[0].z;
+            x_chunk_sub = Chunk_vector_move[0].avg_x;
+            y_chunk_sub = Chunk_vector_move[0].avg_y;
+            z_chunk_sub = Chunk_vector_move[0].avg_z;
 
             bool start=true;
             float fx,prev_x=0;
@@ -1379,24 +1423,25 @@ int main_REPACK(char* region_filename) {
                         Chunk_vector_move[index].x*16, Chunk_vector_move[index].y*16, Chunk_vector_move[index].z*16,
                         Chunk_vector_move[index].dynamite, Chunk_vector_move[index].air);
 */
-                int d_x=(Chunk_vector_move[index].x - x_chunk);
-                int d_y=(Chunk_vector_move[index].y - y_chunk);
-                int d_z=(Chunk_vector_move[index].z - z_chunk);
-                float dist=sqrt((float)( d_x*d_x + d_y*d_y + d_z*d_z) );
+                float d_x=((float)Chunk_vector_move[index].x + (float)Chunk_vector_move[index].avg_x/16.0 - (float)x_chunk - (float)x_chunk_sub/16.0);
+                float d_y=((float)Chunk_vector_move[index].y + (float)Chunk_vector_move[index].avg_y/16.0 - (float)y_chunk - (float)y_chunk_sub/16.0);
+                float d_z=((float)Chunk_vector_move[index].z + (float)Chunk_vector_move[index].avg_z/16.0 - (float)z_chunk - (float)z_chunk_sub/16.0);
+                float dist=sqrt( d_x*d_x + d_y*d_y + d_z*d_z );
 
                 int d=int(sqrt(dist));
+                if (d<1) d=1;
 //                int d=int(dist);
 
                 for (int n=0; n<=d; n++) {
-                    fx=(float)x_chunk + (float)d_x*(float)n/d;
-                    fy=(float)y_chunk + (float)d_y*(float)n/d;
-                    fz=(float)z_chunk + (float)d_z*(float)n/d;
+                    fx=(float)x_chunk + (float)x_chunk_sub/16.0 + d_x*(float)n/(float)d;
+                    fy=(float)y_chunk + (float)y_chunk_sub/16.0 + d_y*(float)n/(float)d;
+                    fz=(float)z_chunk + (float)z_chunk_sub/16.0 + d_z*(float)n/(float)d;
                     if (start || n>0) {
                         if (start == false) {
                             float yaw=atan2( -(fx-prev_x), (fz-prev_z) );
                             float pitch=atan2( sqrt( (fx-prev_x)*(fx-prev_x) + (fz-prev_z)*(fz-prev_z) ), (fy-prev_y) );
-                            yaw=(prev_yaw*3+yaw)/4;
-                            pitch=(prev_pitch*3+pitch)/4;
+                            yaw=(prev_yaw+yaw)/2.0;
+                            pitch=(prev_pitch+pitch)/2.0;
                             prev_yaw=yaw;
                             prev_pitch=pitch;
 
@@ -1406,28 +1451,34 @@ int main_REPACK(char* region_filename) {
                             fprintf(f,"%s%.2f/%.2f/0.0/70.0\n", line, pitch*180.0/M_PI-90.0, yaw*180.0/M_PI);
                         }
                         start = false;
-                        printf("Walk: x=%6.2f y=%6.2f z=%6.2f tnt=%d air=%d d=%2d dist=%6.2f n=%4d ",
-                                fx, fy, fz,
-                                Chunk_vector_move[index].dynamite, Chunk_vector_move[index].air, d, dist, t);
+                        printf("Walk: x=%6.2f y=%6.2f z=%6.2f tnt=%d air=%d d=%2d dist=%6.2f n=%4d i=%4d ",
+                                fx*16, fy*16, fz*16,
+                                Chunk_vector_move[index].dynamite, Chunk_vector_move[index].air, d, dist, t, index);
                         t++;
 //                        printf("%.2f/%.2f/%.2f/", region_x*512+fx*16, fy*16, region_z*512+fz*16);
-                        sprintf(line,"%.2f/%.2f/%.2f/", region_x*512+fx*16+8, fy*16+8, region_z*512+fz*16+8);
+//                        sprintf(line,"%.2f/%.2f/%.2f/", region_x*512+fx*16+8, fy*16+8, region_z*512+fz*16+8);
+                        sprintf(line,"%.2f/%.2f/%.2f/", region_x*512+fx*16, fy*16, region_z*512+fz*16);
 
-                        if ( ! ( n==d && index==Chunk_vector_move.size()-1 ) ) {
-                            prev_x=fx; prev_y=fy; prev_z=fz;
-                        }
+                    }
+                    if ( ! ( n==d && index==Chunk_vector_move.size()-1 ) ) {
+                        prev_x=fx; prev_y=fy; prev_z=fz;
                     }
                 }
                 x_chunk=Chunk_vector_move[index].x;
                 y_chunk=Chunk_vector_move[index].y;
                 z_chunk=Chunk_vector_move[index].z;
+                x_chunk_sub = Chunk_vector_move[index].avg_x;
+                y_chunk_sub = Chunk_vector_move[index].avg_y;
+                z_chunk_sub = Chunk_vector_move[index].avg_z;
+
 //                printf("\n");
             }
             if (start == false) {
+
                 float yaw=atan2( -(fx-prev_x), (fz-prev_z) );
                 float pitch=atan2( sqrt( (fx-prev_x)*(fx-prev_x) + (fz-prev_z)*(fz-prev_z) ), (fy-prev_y) );
-                yaw=(prev_yaw*3+yaw)/4;
-                pitch=(prev_pitch*3+pitch)/4;
+                yaw=(prev_yaw+yaw)/2;
+                pitch=(prev_pitch+pitch)/2;
 //                printf("yaw=%6.2f pitch=%6.2f\n", yaw*180.0/M_PI, pitch*180.0/M_PI-90.0);
 //                printf("%.2f/%.2f/0.0/70.0\n", pitch*180.0/M_PI-90.0, yaw*180.0/M_PI);
                 printf("yaw=%6.1f pitch=%6.1f", yaw*180.0/M_PI, pitch*180.0/M_PI-90.0);
@@ -1436,6 +1487,11 @@ int main_REPACK(char* region_filename) {
 
             }
             fclose(f);
+//            printf("\nchunk_vector.size()=%d\n",cvs);
+//            printf("chunk_vector_move.size()=%d\n",Chunk_vector_move.size());
+
+//            printf("\nfx=%6.1f fy=%6.1f fz=%6.1f\n",fx,fy,fz);
+//            printf("prev_x=%6.1f prev_y=%6.1f prev_z=%6.1f\n",prev_x,prev_y,prev_z);
         }
 //        std::map<int, struct Chunk_map_struct>::iterator it_Chunk_map;
 //        bool found=false;
@@ -1461,12 +1517,20 @@ int main_REPACK(char* region_filename) {
             for (int z = 0; z < 512; z++) {
                 BlockInfo* AY=AZ[z];
                 for (int y = 0; y < 256; y++) {
-                    BlockInfo bi=AY[y];
-                    if (y<3) AY[y]=BlockInfo(7,0,0,0);
-                    else if (bi.id==8 || bi.id==9 || bi.id==137 || bi.id==210) AY[y]=BlockInfo();
+                    BlockInfo* bi=&AY[y];
+                    bi->block_light=0;
+                    if (y<3) {
+                        if (y==2)
+                            AY[y]=BlockInfo(7,0,0,0);
+                        else
+                            AY[y]=BlockInfo(7,0,0,0);
+                    }
+                    else if (bi->id==137 || bi->id==210) AY[y]=BlockInfo();
+                    else if (bi->id==8 || bi->id==9) AY[y]=BlockInfo();
+//                    bi->sky_light=0;
 //                    if (!(rand()%4)) if (!(rand()%(750+250*y)) && y<10 && y>4 && AY[y].id==0) AY[y]=BlockInfo(89,0,0,0);
                 }
-                if (AX[x][z][3].id==89 && AX[x][z][4].id==0) AX[x][z][3]=BlockInfo();
+//                if (AX[x][z][3].id==89 && AX[x][z][4].id==0) AX[x][z][3]=BlockInfo();
 /*
                 if (AY[3].id==0) {
                     if (!(rand()%1000)) AY[2]=BlockInfo(89,0,0,0);

@@ -157,8 +157,8 @@ void MCEditor::initBlocks(const MCRegion &R)
                 AY_blocks[k] = id;
                 AY_blockdata[k] = bi.data;
 //noumoe
-//                AY_blocklight[k] = bi.block_light;
-                AY_blocklight[k] = 0;
+                AY_blocklight[k] = bi.block_light;
+//                AY_blocklight[k] = 0;
             }
         }
     }
@@ -196,7 +196,7 @@ void MCEditor::computeSkyLight(const MCRegion &R) {
         for (int z = 0; z < R.z_len; z++) {
             ui* AY_skylight=AZ_skylight[z];
 //            memset(AZ_skylight[z], 0, 256 * sizeof(ui));
-            memset(AZ_skylight[z], 0, R.y_len * sizeof(ui));
+//            memset(AZ_skylight[z], 0, R.y_len * sizeof(ui));
         }
     }
 

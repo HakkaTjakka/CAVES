@@ -19,6 +19,8 @@ sf::Mutex main_mutex;
 
 int argc_global;
 char** argv_global;
+extern bool fix;
+extern bool teleport;
 
 int main(int argc, char** argv) {
 //    setvbuf(stdout, NULL, _IOLBF, 0);
@@ -35,6 +37,7 @@ int main(int argc, char** argv) {
 
 //    int shader_index=init_cave_shader();
 
+
     sf::Texture texture;
     if (!texture.loadFromFile("cb.bmp"))
         return EXIT_FAILURE;
@@ -49,6 +52,16 @@ int main(int argc, char** argv) {
     launch_MCEDITOR();
 
     sf::sleep(sf::seconds(0.1));
+
+    while (argc_global>2) {
+        if (MCEDITOR_running==0) {
+            terminate_MCEDITOR();
+            sf::sleep(sf::seconds(0.1));
+            printf("\n");
+            return EXIT_SUCCESS;
+        }
+        sf::sleep(sf::seconds(1.0));
+    }
 
     sf::RenderWindow app(sf::VideoMode(texture.getSize().x,texture.getSize().y), "SFML window");
 
