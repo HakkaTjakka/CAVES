@@ -1,3 +1,39 @@
+# update:
+
+Command: ./teleport_add.sh runs command: ./make_caves repack all teleport
+
+Then runs from r.0.0.mca to r.59.59.mca and:
+
+- Creates Bauwercam mod camera data (out.txt, move to .minecraft/bauwercam, (or copy then delete org, data gets added on next run))
+
+    Every 16x16x16 block (chunk)
+    
+    Moves to area's with air + dynamite first, then with dynamite. 
+
+    Load ingame with: /cam load out, run with: /cam start <number of frames>
+    
+- Adds auto powered repeating_command_block in every chunk (16x16x16) most close to middle of chunk
+ 
+    Added nbt tag "TileTicks" in MCEditor code, so when it's a repeating_command_block it adds a trigger to get on timer tick. (Otherwise not active)
+    
+    Set distance to 16 to activate:     
+    
+      sprintf(tmp_glob, "function abc:redstone_block if @e[r=16]");
+    
+    Added: function abc:redstone_block (data/functions/abc/redstone_block.mceditor, inside data.zip (new)) for changing repeated_command_block into redstone_block to activate dynamite.
+    
+    So the command added to the command_block is inside the c/c++ code and this command is: "function abc:redstone_block if @e[r=16]". The actual change into the minecraft:redstone_block is then done in the function redstone_block.mcfunction in the data/functions/abc dir. The code for that right now is:
+    
+       setblock ~ ~ ~ redstone_block 0
+       say BOOM
+ 
+    So you run the command ./teleport_all.sh with ./make_caves.sh in the directory above saves/caves/regions
+ 
+    Use for one file the command: ./make_caves repack <region_filename.mca> teleport (See also ./teleport.sh)
+ 
+    Or just run: ./teleport.sh 
+***
+
 For running a Minecraft server on Forge (1.18.1) you need to install Java version 17:
 
 sudo apt-get install oracle-java17-installer oracle-java17-set-default
