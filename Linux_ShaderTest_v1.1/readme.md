@@ -12,7 +12,9 @@ Then runs from r.0.0.mca to r.59.59.mca and:
 
     Load ingame with: /cam load out, run with: /cam start <number of frames>
     
-- Adds auto powered repeating_command_block in every chunk (16x16x16) most close to middle of chunk
+    Note: BauwerCam mod only runs on 1.12.2
+    
+- Adds auto powered repeating_command_block in every chunk (16x16x16) most close to middle of chunk (So BOOM when close (<=16))
  
     Added nbt tag "TileTicks" in MCEditor code, so when it's a repeating_command_block it adds a trigger to get on timer tick. (Otherwise not active)
     
