@@ -102,6 +102,10 @@ private:
 
     node* newBlockEntityNode(BlockEntity* entity);
 
+    node *newTileTickRoot();
+
+    node* newBlockTickNode(BlockEntity* entity);
+
     node* newEntityNode(MobEntity* entity);
 };
 

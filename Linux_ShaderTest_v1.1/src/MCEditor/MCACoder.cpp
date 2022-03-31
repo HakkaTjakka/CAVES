@@ -292,6 +292,8 @@ void MCACoder::removeBlockEntity(const Pos &position)
     node *level_root = chunk_root->childWithName("Level");
     node *T = level_root->childWithName("TileEntities");
 
+    node *T_Ticks = level_root->childWithName("TileTicks");
+
     int totx=region_xxx*512;
     int totz=region_zzz*512;
 
@@ -312,6 +314,29 @@ void MCACoder::removeBlockEntity(const Pos &position)
         }
         delete u;
         it = T->ch.erase(it);
+        modification_saved = false;
+        break;
+    }
+
+    if (!T_Ticks) { return; }
+
+    for (auto it = T_Ticks->ch.begin(); it != T_Ticks->ch.end(); it++)
+    {
+        node *u = *it;
+        if (u->ch.empty()) continue;
+
+        node *v;
+        v = u->childWithName("x");
+        int x = v->tag.vi;
+        v = u->childWithName("z");
+        int z = v->tag.vi;
+        v = u->childWithName("y");
+        int y = v->tag.vi;
+        if (!(position == Pos(x-totx, z-totz, y))) {
+            continue;
+        }
+        delete u;
+        it = T_Ticks->ch.erase(it);
         modification_saved = false;
         break;
     }
@@ -352,6 +377,8 @@ void MCACoder::insertBlockEntity(const Pos &position, BlockEntity *entity) {
 
     T->tag.ch_type = TAG_COMPOUND;
     T->addChild(newBlockEntityNode(entity));
+
+//koekkoek
     modification_saved = false;
 }
 
@@ -492,6 +519,10 @@ node *MCACoder::sectionNodeWithY(node *T, int y)
     return 0;
 }
 
+//koekkoek
+//node *MCACoder::newSectionNodeWithY(int y) {
+//}
+
 node *MCACoder::newSectionNodeWithY(int y) {
     node *u;
     node *T = new node(TAG_COMPOUND, "none");
@@ -518,6 +549,57 @@ node *MCACoder::newSectionNodeWithY(int y) {
 
     return T;
 }
+//koekkoek
+
+node *MCACoder::newBlockTickNode(BlockEntity *entity) {
+    node *u;
+    node *T = new node(TAG_COMPOUND, "none");
+
+    u = new node(TAG_STRING, "i");
+    u->tag.vs = entity->entity_id;
+    T->addChild(u);
+
+    u = new node(TAG_INT, "x");
+    u->tag.vi = entity->position.x;
+    T->addChild(u);
+
+    u = new node(TAG_INT, "y");
+    u->tag.vi = entity->position.y;
+    T->addChild(u);
+
+    u = new node(TAG_INT, "z");
+    u->tag.vi = entity->position.z;
+    T->addChild(u);
+
+    if (entity->entity_id == "minecraft:repeating_command_block")
+    {
+        BlockEntityRepeatingCommand *repcmdblock = (BlockEntityRepeatingCommand*)entity;
+//        BlockEntityCommand *cmdblock = (BlockEntityCommand*)entity;
+
+        u = new node(TAG_INT, "p");
+        u->tag.vi = repcmdblock->p;
+        T->addChild(u);
+
+        u = new node(TAG_STRING, "t");
+        u->tag.vi = repcmdblock->t;
+        T->addChild(u);
+    }
+
+    return T;
+}
+
+
+
+node *MCACoder::newTileTickRoot() {
+//    node *u;
+//    node *T = new node(TAG_COMPOUND, "TileTicks");
+
+    node *T = new node(TAG_LIST, "TileTicks");
+    T->tag.ch_type=TAG_COMPOUND;
+
+    return T;
+}
+
 
 node *MCACoder::newBlockEntityNode(BlockEntity *entity) {
     node *u;
@@ -525,7 +607,11 @@ node *MCACoder::newBlockEntityNode(BlockEntity *entity) {
     node *T = new node(TAG_COMPOUND, "none");
 
     u = new node(TAG_STRING, "id");
-    u->tag.vs = entity->entity_id;
+    if (entity->entity_id == "minecraft:repeating_command_block") {
+        u->tag.vs = "minecraft:command_block";
+    } else {
+        u->tag.vs = entity->entity_id;
+    }
     T->addChild(u);
 
     u = new node(TAG_INT, "x");
@@ -553,7 +639,7 @@ node *MCACoder::newBlockEntityNode(BlockEntity *entity) {
         T->addChild(u);
     }
 
-    if (entity->entity_id == "minecraft:command_block")
+    if (entity->entity_id == "minecraft:command_block" || entity->entity_id == "minecraft:repeating_command_block")
     {
         BlockEntityCommand *cmdblock = (BlockEntityCommand*)entity;
 

@@ -408,7 +408,6 @@ void MCEditor::lightPropagate(ui*** light)
                         for (int d = 0; d < 6; d++) {
                             int vx = u.x + DX[d],   vz = u.z + DZ[d],     vy = u.y + DY[d];
                             if (vx<0 || vx>=x_len || vz<0 || vz>=z_len || vy<0 || vy>=y_len) continue;
-//                            if (vx<0 || vx>=512 || vz<0 || vz>=512 || vy<0 || vy>=256) continue;
 
                             int dec = get_opacity(blocks[vx][vz][vy]);
                             int vlight = (int)light[u.x][u.z][u.y] - dec;
@@ -442,7 +441,6 @@ void MCACoder::getBlock_FAST(const MCRegion &region) {
             int idx = (chunk_x & 31) + 32 * (chunk_z & 31);
             node *chunk_root = Chunk[idx];
             if (!chunk_root) {
-//                for (int y_outer = 0; y_outer < 256; y_outer+=16) {
                 for (int y_outer = 0; y_outer < region.y_len; y_outer+=16) {
                     for (int x_inner = 0; x_inner < 16 ; x_inner++) {
                         int x=x_outer + x_inner;
@@ -463,7 +461,6 @@ void MCACoder::getBlock_FAST(const MCRegion &region) {
             node *level_root = chunk_root->childWithName("Level");
             node *sec_root = level_root->childWithName("Sections");
             for (int y_outer = 0; y_outer < region.y_len; y_outer+=16) {
-//            for (int y_outer = 0; y_outer < y_256; y_outer+=16) {
                 int sec_no = y_outer >> 4;
                 node *T = sectionNodeWithY(sec_root, sec_no);
 
@@ -564,6 +561,7 @@ void MCACoder::setBlock_FAST(const MCRegion &region) {
             node *chunk_root = Chunk[idx];
 
             if (!chunk_root) {
+//                fprintf(stderr,"No chunk_root[%d] for chunk (%d, %d)\n",idx, chunk_x, chunk_z);
                 continue;
             }
 
@@ -571,7 +569,8 @@ void MCACoder::setBlock_FAST(const MCRegion &region) {
             node *sec_root = level_root->childWithName("Sections");
 
             node *tile_root  = level_root->childWithName("TileEntities");
-            if (!tile_root) {  fprintf(stderr,"TileEntities does not exits chunk (%d, %d)\n", chunk_x, chunk_z); }
+
+            if (!tile_root) {  fprintf(stderr,"TileEntities does not exists chunk (%d, %d)\n", chunk_x, chunk_z); }
             else {
                 if (remove_block_entities) {
                     for (auto it = tile_root->ch.begin(); it != tile_root->ch.end(); it++)
@@ -580,6 +579,19 @@ void MCACoder::setBlock_FAST(const MCRegion &region) {
                         nbt_coder.Clear(u);
                     }
                     tile_root->ch.clear();
+                }
+            }
+//koekkoek
+            node *tile_tick_root  = level_root->childWithName("TileTicks");
+            if (!tile_tick_root) {  /* fprintf(stderr,"TileTicks does not exists chunk (%d, %d)\n", chunk_x, chunk_z); */ }
+            else {
+                if (remove_block_entities) {
+                    for (auto it = tile_tick_root->ch.begin(); it != tile_tick_root->ch.end(); it++)
+                    {
+                        node *u = *it;
+                        nbt_coder.Clear(u);
+                    }
+                    tile_tick_root->ch.clear();
                 }
             }
 
@@ -648,6 +660,19 @@ void MCACoder::setBlock_FAST(const MCRegion &region) {
                             if (entity) {
                                 tile_root->tag.ch_type = TAG_COMPOUND;
                                 tile_root->addChild(newBlockEntityNode(entity));
+//koekkoek
+                                if (entity->entity_id == "minecraft:repeating_command_block") {
+                                    if (tile_tick_root) {
+                                        tile_tick_root->tag.ch_type = TAG_COMPOUND;
+                                        tile_tick_root->addChild(newBlockTickNode(entity));
+
+                                    } else {
+                                        tile_tick_root = newTileTickRoot();
+                                        tile_tick_root->addChild(newBlockTickNode(entity));
+                                        level_root->addChild(tile_tick_root);
+                                    }
+                                }
+
                             }
 
                             if (info->id!=0) content_section=true;

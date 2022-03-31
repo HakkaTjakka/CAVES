@@ -98,13 +98,14 @@
 	<GL/glut.h>
 	"functions.hpp"
 
-1648167177 source:/home/pacman/pacman/Linux/src/make_caves.cpp
+1648686743 source:/home/pacman/pacman/Linux/src/make_caves.cpp
 	<curses.h>
 	"MCEditor/MCEditor.h"
 	"MCEditor/BlockEntity.h"
 	"MCEditor/MCACoder.h"
 	<math.h>
 	<cstring>
+	<string>
 	<iostream>
 	<time.h>
 	<unistd.h>
@@ -129,7 +130,7 @@
 	<cstring>
 	<algorithm>
 
-1646637880 /home/pacman/pacman/Linux/src/MCEditor/MCACoder.h
+1648684808 /home/pacman/pacman/Linux/src/MCEditor/MCACoder.h
 	<string>
 	<cstdlib>
 	"NBTCoder.h"
@@ -144,7 +145,7 @@
 	<cstring>
 	"globals.h"
 
-1645502476 /home/pacman/pacman/Linux/src/MCEditor/BlockEntity.h
+1648687699 /home/pacman/pacman/Linux/src/MCEditor/BlockEntity.h
 	<string>
 	"globals.h"
 
@@ -152,7 +153,7 @@
 	"globals.h"
 	"zlib.h"
 
-1647457043 source:/home/pacman/pacman/Linux/src/MCEditor/MCACoder.cpp
+1648686425 source:/home/pacman/pacman/Linux/src/MCEditor/MCACoder.cpp
 	"MCACoder.h"
 	<cstring>
 	<cstdlib>
@@ -160,7 +161,7 @@
 	<algorithm>
 	"globals.h"
 
-1648130566 source:/home/pacman/pacman/Linux/src/MCEditor/MCEditor.cpp
+1648685913 source:/home/pacman/pacman/Linux/src/MCEditor/MCEditor.cpp
 	"MCEditor.h"
 	<vector>
 	<algorithm>

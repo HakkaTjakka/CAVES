@@ -99,6 +99,35 @@ public:
 private:
 };
 
+class BlockEntityRepeatingCommand : public BlockEntity
+{
+public:
+    std::string command;
+    int automatic;
+    int powered;
+//    std::string i;
+    int p; // 0
+    int t; // 1
+
+    BlockEntityRepeatingCommand() {}
+
+    BlockEntityRepeatingCommand(const Pos &position_,
+                       const std::string &command_,
+                       const int &automatic_,
+                       const int &powered_,
+//                       const std::string &i_,
+                       const int p_,
+                       const int t_
+                       )
+        : BlockEntity(position_, "minecraft:repeating_command_block"),
+          command(command_), automatic(automatic_), powered(powered_),
+            //i(i_),
+             p(p_), t(t_) {}
+//          command(command_), automatic(automatic_) {}
+
+private:
+};
+
 class BlockEntityGlowColor : public BlockEntity
 {
 public:
