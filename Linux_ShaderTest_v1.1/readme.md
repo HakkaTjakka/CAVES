@@ -35,7 +35,7 @@ Then runs from r.0.0.mca to r.59.59.mca and:
        setblock ~ ~ ~ redstone_block 0
        say BOOM
  
-    So you run the command ./teleport_all.sh with ./make_caves.sh in the directory above saves/caves/regions
+    So you run the command ./teleport_all.sh with ./make_caves in the directory above saves/caves/regions
  
     Use for one file the command: ./make_caves repack <region_filename.mca> teleport (See also ./teleport.sh)
  
