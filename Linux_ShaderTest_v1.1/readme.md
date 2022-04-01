@@ -1,4 +1,10 @@
-# update:
+# update(s):
+
+***
+Added output to fly.txt (next to out.txt) for Bauwercam Mod camera movement with some faster movement and tilt (roll, next to yaw and pitch)
+
+https://github.com/HakkaTjakka/CAVES/blob/6622a50667097a8d0604a63fa1c3d69493281d14/Linux_ShaderTest_v1.1/src/make_caves.cpp#L1526
+***
 
 Command: ./teleport_add.sh runs command: ./make_caves repack all teleport
 
