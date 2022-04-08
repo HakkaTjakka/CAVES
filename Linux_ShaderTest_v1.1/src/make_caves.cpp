@@ -1232,6 +1232,7 @@ int main_REPACK(char* region_filename) {
         int num_chunks_none = 0;
         int num_chunks = 0;
         int num_redstone = 0;
+        int redstone_present = 0;
 
         printf("\n");
 
@@ -1263,6 +1264,7 @@ int main_REPACK(char* region_filename) {
                                 BlockInfo bi=AY[y+chunk_y*16];
                                 if (bi.id==210) {
                                     redstone=true;
+                                    redstone_present++;
                                 } else if (bi.id==46) {
                                     float l_n = abs(x-8)+abs(y-8)+abs(z-8);
                                     if (l_n < l) {
@@ -1356,9 +1358,9 @@ int main_REPACK(char* region_filename) {
 //                fflush(stdout);
             }
         }
-        printf("tot: %5d   tnt: %5d   air: %5d   both: %5d   none: %5d   redstone: %5d\n",
-               num_chunks, num_chunks_dynamite, num_chunks_air, num_chunks_both, num_chunks_none, num_redstone);
-        printf("\n");
+//        printf("tot: %5d   tnt: %5d   air: %5d   both: %5d   none: %5d   redstone: %5d\n",
+//               num_chunks, num_chunks_dynamite, num_chunks_air, num_chunks_both, num_chunks_none, num_redstone);
+//        printf("\n");
 //        for (auto u : Chunk_vector) {
 //            OneChunk = u;
 //            printf("2) Move to: x=%2d y=%2d z=%2d tnt=%d air=%d\n",
@@ -1550,7 +1552,7 @@ int main_REPACK(char* region_filename) {
                 int cnt=0;
                 int cnt2=0;
 
-                while ( sqrt(d_x*d_x+d_y*d_y+d_z*d_z) < 3.0 && index<=last) {
+                while ( sqrt(d_x*d_x+d_y*d_y+d_z*d_z) < 40.0 && index<=last) {
                     d_x+=fabs(Fly_vector[index].x-x_prev);
                     d_y+=fabs(Fly_vector[index].y-y_prev);
                     d_z+=fabs(Fly_vector[index].z-z_prev);
@@ -1625,8 +1627,8 @@ int main_REPACK(char* region_filename) {
             }
             fclose(f);
         }
-        printf("tot: %5d   tnt: %5d   air: %5d   both: %5d   none: %5d   redstone: %5d\n",
-               num_chunks, num_chunks_dynamite, num_chunks_air, num_chunks_both, num_chunks_none, num_redstone);
+        printf("tot: %5d   tnt: %5d   air: %5d   both: %5d   none: %5d   redstone: %d/%d\n",
+               num_chunks, num_chunks_dynamite, num_chunks_air, num_chunks_both, num_chunks_none, num_redstone, redstone_present);
 
         if (to_save) {
             editor->mca_coder.current_filename_mca=region_filename;
@@ -1654,30 +1656,34 @@ int main_REPACK(char* region_filename) {
                 for (int y = 0; y < 256; y++) {
                     BlockInfo* bi=&AY[y];
                     bi->block_light=0;
-                    if (y<3) {
-                        if (y==2)
-                            AY[y]=BlockInfo(7,0,0,0);
+                    if (y<4) {
+                        if (y==3) {
+                            if (AX[x][z][4].id==0 || AX[x][z][4].id==9)
+                                AY[y]=BlockInfo(251,0,3,15);
+                            else
+                                AY[y]=BlockInfo(1,0,0,0);
+                        }
                         else
                             AY[y]=BlockInfo(7,0,0,0);
                     }
-                    else if (bi->id==137 || bi->id==210) AY[y]=BlockInfo();
-                    else if (bi->id==8 || bi->id==9) AY[y]=BlockInfo();
+//                    else if (bi->id==137 || bi->id==210) AY[y]=BlockInfo();
+//                    else if (bi->id==8 || bi->id==9) AY[y]=BlockInfo();
 //                    bi->sky_light=0;
-//                    if (!(rand()%4)) if (!(rand()%(750+250*y)) && y<10 && y>4 && AY[y].id==0) AY[y]=BlockInfo(89,0,0,0);
+//                    if (!(rand()%10)) if (!(rand()%(750+250*y)) && y<10 && y>4 && AY[y].id==0) AY[y]=BlockInfo(89,0,0,0);
                 }
 //                if (AX[x][z][3].id==89 && AX[x][z][4].id==0) AX[x][z][3]=BlockInfo();
-/*
-                if (AY[3].id==0) {
-                    if (!(rand()%1000)) AY[2]=BlockInfo(89,0,0,0);
-                    else AY[3]=BlockInfo(8,0,0,0);
 
-                    if (x>0  ) { int id=AX[x-1][z][3].id;  if (id==95 || id==1) AX[x-1][z][3]=BlockInfo(89,0,0,0); }
-                    if (x<511) { int id=AX[x+1][z][3].id;  if (id==95 || id==1) AX[x+1][z][3]=BlockInfo(89,0,0,0); }
-                    if (z>0  ) { int id=AX[x][z-1][3].id;  if (id==95 || id==1) AX[x][z-1][3]=BlockInfo(89,0,0,0); }
-                    if (z<511) { int id=AX[x][z+1][3].id;  if (id==95 || id==1) AX[x][z+1][3]=BlockInfo(89,0,0,0); }
+                if (AY[4].id==0) {
+                    if (!(rand()%1000)) AY[3]=BlockInfo(89,0,0,0);
+                    else AY[4]=BlockInfo(9,0,0,15);
+
+                    if (x>0  ) { int id=AX[x-1][z][4].id;  if (id==95 || id==1) AX[x-1][z][4]=BlockInfo(89,0,0,0); }
+                    if (x<511) { int id=AX[x+1][z][4].id;  if (id==95 || id==1) AX[x+1][z][4]=BlockInfo(89,0,0,0); }
+                    if (z>0  ) { int id=AX[x][z-1][4].id;  if (id==95 || id==1) AX[x][z-1][4]=BlockInfo(89,0,0,0); }
+                    if (z<511) { int id=AX[x][z+1][4].id;  if (id==95 || id==1) AX[x][z+1][4]=BlockInfo(89,0,0,0); }
 
                 }
-*/
+
 //                if (!(rand()%3000)) AY[3]=BlockInfo(89,0,0,0);
 //                if (!(rand()%3000)) AY[2]=BlockInfo(89,0,0,0);
 //                else if ( AY[2].id==7 || AY[2].id==251 || AY[2].id==8 || AY[2].id==9 || AY[2].id==0 ) AY[2]=BlockInfo(251,0,15,0);

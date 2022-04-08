@@ -187,6 +187,8 @@ void MCEditor::computeBlockLight(const MCRegion &R)
     lightPropagate(blocklight);
 }
 
+extern bool fix;
+
 void MCEditor::computeSkyLight(const MCRegion &R) {
 //    for (int x = 0; x < 512; x++) {
     for (int x = 0; x < R.x_len; x++) {
@@ -195,8 +197,8 @@ void MCEditor::computeSkyLight(const MCRegion &R) {
 //        for (int z = 0; z < 512; z++) {
         for (int z = 0; z < R.z_len; z++) {
             ui* AY_skylight=AZ_skylight[z];
-//            memset(AZ_skylight[z], 0, 256 * sizeof(ui));
-//            memset(AZ_skylight[z], 0, R.y_len * sizeof(ui));
+            memset(AZ_skylight[z], 0, 256 * sizeof(ui));
+//            memset(AZ_skylight[z],15, R.y_len * sizeof(ui));
         }
     }
 
@@ -212,6 +214,7 @@ void MCEditor::computeSkyLight(const MCRegion &R) {
 //            for (int y = 255; y >= 0; y--) {
             for (int y = y_len-1; y >= 0; y--) {
                 if (get_opacity(AY_blocks[y]) <= 1) AY_skylight[y] = 15;
+                else if (fix && y==4) AY_skylight[y] = 15;
                 else break;
             }
         }
