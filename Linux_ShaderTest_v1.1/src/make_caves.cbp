@@ -102,6 +102,7 @@
 		<Unit filename="main.cpp" />
 		<Unit filename="make_caves.cpp" />
 		<Unit filename="make_caves_simple.cpp" />
+		<Unit filename="repack2.cpp" />
 		<Unit filename="shaders.cpp" />
 		<Unit filename="shaders.hpp" />
 		<Extensions>

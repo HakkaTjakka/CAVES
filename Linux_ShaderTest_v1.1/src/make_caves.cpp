@@ -29,6 +29,7 @@
 
 bool fix=false;
 bool teleport=false;
+bool teleport2=false;
 
 int make_caves(char* shader_name) {
     mkdir("saves", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
@@ -45,6 +46,8 @@ int make_caves(char* shader_name) {
                 fix=true;
             } else if (strcmp(argv_global[3],"teleport")==0) {
                 teleport=true;
+            } else if (strcmp(argv_global[3],"teleport2")==0) {
+                teleport2=true;
             }
         }
 
@@ -66,6 +69,7 @@ int make_caves(char* shader_name) {
                                 continue;
                             }
                             sprintf(tmp, "saves/caves/region/r.%d.%d.mca", region_x, region_z);
+                            printf("saves/caves/region/r.%d.%d.mca\n", region_x, region_z);
                             if ( file_exists(tmp) ) {
                                 if (main_REPACK(tmp)==-1) {
                                     printf("Error repacking %s\n",argv_global[2]);
@@ -1091,13 +1095,6 @@ void update_caves_region(sf::RenderTexture& texture, sf::Sprite& sprite, int tex
     texture.draw(sprite,shader_struct_vector[shader_index]->RenderStates);
 }
 
-struct Chunk_struct
-{
-    int x, z, y;
-    int avg_x, avg_y, avg_z;
-    int dynamite, air;
-};
-
 int x_chunk,y_chunk,z_chunk;
 int x_chunk_sub,y_chunk_sub,z_chunk_sub;
 
@@ -1115,12 +1112,6 @@ bool compareChunk(const Chunk_struct &A, const Chunk_struct &B)
 //        else return Adiff_x * Adiff_x + Adiff_y * Adiff_y + Adiff_z * Adiff_z < Bdiff_x * Bdiff_x + Bdiff_y * Bdiff_y + Bdiff_z * Bdiff_z;
         return Adiff_x * Adiff_x + Adiff_y * Adiff_y + Adiff_z * Adiff_z < Bdiff_x * Bdiff_x + Bdiff_y * Bdiff_y + Bdiff_z * Bdiff_z;
 }
-
-struct Fly_struct
-{
-    float x, z, y;
-    float pitch, yaw, tilt, FOV;
-};
 
 int region_xxx_glob;
 int region_zzz_glob;
@@ -1172,7 +1163,7 @@ void setRedstone_block(MCRegion &R, int x, int z, int y) {
         setRepeatingBlockWithCommand(R, x, z, y,  cmd1, 1, 0);
 }
 
-int main_REPACK(char* region_filename) {
+int main_REPACK1(char* region_filename) {
     bool nodisp=false;
     if (file_exists("nodisp.on")) nodisp=true;
 //    int load_leeg=0;
@@ -1372,7 +1363,11 @@ int main_REPACK(char* region_filename) {
             first = false;
         }
         int cvs=Chunk_vector.size();
+
+
+
         if (first == false) {
+
             printf("Move to: x=%3d y=%3d z=%3d tnt=%d air=%d n=%d\n",
                     Chunk_vector[index_first].x*16+Chunk_vector[index_first].avg_x,
                     Chunk_vector[index_first].y*16+Chunk_vector[index_first].avg_y,
@@ -1389,8 +1384,63 @@ int main_REPACK(char* region_filename) {
             y_chunk_sub = Chunk_vector[index_first].avg_y;
             z_chunk_sub = Chunk_vector[index_first].avg_z;
 
+            std::sort(Chunk_vector.begin(), Chunk_vector.end(), compareChunk);
+            Chunk_vector.erase(Chunk_vector.begin()+index_first);
+
+            int cnt=0;
             while (Chunk_vector.size() > 1) {
+                cnt++;
+                float d_x=((float)Chunk_vector[0].x*16 + (float)Chunk_vector[0].avg_x - (float)x_chunk*16 - (float)x_chunk_sub);
+                float d_y=((float)Chunk_vector[0].y*16 + (float)Chunk_vector[0].avg_y - (float)y_chunk*16 - (float)y_chunk_sub);
+                float d_z=((float)Chunk_vector[0].z*16 + (float)Chunk_vector[0].avg_z - (float)z_chunk*16 - (float)z_chunk_sub);
+
+                float dist=sqrt( d_x*d_x + d_y*d_y + d_z*d_z );
+
+                index_first=0;
+                if (dist>50 || Chunk_vector.size()==1) {
+                    printf("Move to: x=%3d y=%3d z=%3d air=%d n=%d cnt=%2d dist=%.2f\n",
+                            Chunk_vector[0].x*16+Chunk_vector[0].avg_x,
+                            Chunk_vector[0].y*16+Chunk_vector[0].avg_y,
+                            Chunk_vector[0].z*16+Chunk_vector[0].avg_z,
+                            Chunk_vector[0].air,Chunk_vector.size(), cnt, dist);
+                    fflush(stdout);
+
+//                    Chunk_vector_move.push_back(Chunk_vector[0]);
+                    Chunk_vector_move.push_back(OneChunk);
+
+                    OneChunk=Chunk_vector[0];
+
+                    x_chunk = Chunk_vector[0].x;
+                    y_chunk = Chunk_vector[0].y;
+                    z_chunk = Chunk_vector[0].z;
+                    x_chunk_sub = Chunk_vector[0].avg_x;
+                    y_chunk_sub = Chunk_vector[0].avg_y;
+                    z_chunk_sub = Chunk_vector[0].avg_z;
+
+                    std::sort(Chunk_vector.begin(), Chunk_vector.end(), compareChunk);
+                    Chunk_vector.erase(Chunk_vector.begin()+index_first);
+
+                    cnt=0;
+                } else {
+//                    printf("Move to: x=%3d y=%3d z=%3d air=%d n=%d cnt=%2d dist=%.2f\n",
+//                            Chunk_vector[0].x*16+Chunk_vector[0].avg_x,
+//                            Chunk_vector[0].y*16+Chunk_vector[0].avg_y,
+//                            Chunk_vector[0].z*16+Chunk_vector[0].avg_z,
+//                            Chunk_vector[0].air,Chunk_vector.size(), cnt, dist);
+//                    fflush(stdout);
+                    Chunk_vector.erase(Chunk_vector.begin()+index_first);
+                }
+            }
+
+            if (Chunk_vector.size()==1) Chunk_vector_move.push_back(OneChunk);
+
+/*
+
+
+            while (Chunk_vector.size() > 1) {
+
                 Chunk_vector.erase(Chunk_vector.begin()+index_first);
+
                 std::sort(Chunk_vector.begin(), Chunk_vector.end(), compareChunk);
                 index_first=0;
                 printf("Move to: x=%3d y=%3d z=%3d tnt=%d air=%d n=%d\n",
@@ -1400,17 +1450,6 @@ int main_REPACK(char* region_filename) {
                         Chunk_vector[0].dynamite, Chunk_vector[0].air,Chunk_vector.size());
                 Chunk_vector_move.push_back(Chunk_vector[0]);
 
-/*
-                for (auto u : Chunk_vector) {
-//                    if ( abs(u.x-x_chunk) <= 1 && abs(u.y-y_chunk) <= 1 && abs(u.z-z_chunk) <= 1 ) {
-                    if ( abs(u.x*16 + u.avg_x - x_chunk*16 - x_chunk_sub) <= 16 &&
-                         abs(u.y*16 + u.avg_y - y_chunk*16 - y_chunk_sub) <= 16 &&
-                         abs(u.z*16 + u.avg_z - z_chunk*16 - z_chunk_sub) <= 16 ) {
-//                    if ( abs(u.x-x_chunk) + abs(u.y-y_chunk) + abs(u.z-z_chunk) == 1 ) {
-                        u.air = 1;
-                    }
-                }
-*/
                 x_chunk = Chunk_vector[0].x;
                 y_chunk = Chunk_vector[0].y;
                 z_chunk = Chunk_vector[0].z;
@@ -1426,6 +1465,8 @@ int main_REPACK(char* region_filename) {
             x_chunk_sub = Chunk_vector_move[0].avg_x;
             y_chunk_sub = Chunk_vector_move[0].avg_y;
             z_chunk_sub = Chunk_vector_move[0].avg_z;
+
+*/
 
             bool start=true;
             float fx,prev_x=0;
@@ -1640,6 +1681,9 @@ int main_REPACK(char* region_filename) {
             }
             editor->setRegion(region);
             printf(" Region ready, returning\n");
+        } else {
+//memory leak
+            editor->mca_coder.clearModification();
         }
 
         delete editor;
@@ -1658,14 +1702,16 @@ int main_REPACK(char* region_filename) {
                     bi->block_light=0;
                     if (y<4) {
                         if (y==3) {
-                            if (AX[x][z][4].id==0 || AX[x][z][4].id==9)
+                            if (AX[x][z][4].id==0 || AX[x][z][4].id==9 || AX[x][z][4].id==8)
                                 AY[y]=BlockInfo(251,0,3,15);
+//                                AY[y]=BlockInfo(251,0,3,0);
                             else
                                 AY[y]=BlockInfo(1,0,0,0);
                         }
                         else
                             AY[y]=BlockInfo(7,0,0,0);
                     }
+//                    if (AY[y].id==0) AY[y].sky_light=15;
 //                    else if (bi->id==137 || bi->id==210) AY[y]=BlockInfo();
 //                    else if (bi->id==8 || bi->id==9) AY[y]=BlockInfo();
 //                    bi->sky_light=0;
@@ -1675,8 +1721,13 @@ int main_REPACK(char* region_filename) {
 
                 if (AY[4].id==0) {
                     if (!(rand()%1000)) AY[3]=BlockInfo(89,0,0,0);
-                    else AY[4]=BlockInfo(9,0,0,15);
+                    AY[4]=BlockInfo(9,0,0,0);
+                }
+                if (AY[4].id==9 || AY[4].id==8) {
+                    if (AY[5].id!=0) AY[4]=BlockInfo( AY[5].id, AY[5].add, AY[5].data, 0 );
+                }
 
+                if (AY[4].id==9) {
                     if (x>0  ) { int id=AX[x-1][z][4].id;  if (id==95 || id==1) AX[x-1][z][4]=BlockInfo(89,0,0,0); }
                     if (x<511) { int id=AX[x+1][z][4].id;  if (id==95 || id==1) AX[x+1][z][4]=BlockInfo(89,0,0,0); }
                     if (z>0  ) { int id=AX[x][z-1][4].id;  if (id==95 || id==1) AX[x][z-1][4]=BlockInfo(89,0,0,0); }
@@ -1704,5 +1755,14 @@ int main_REPACK(char* region_filename) {
 
     delete editor;
     return 0;
+}
+
+int main_REPACK(char* region_filename) {
+    if (teleport || fix) {
+        return main_REPACK1(region_filename);
+    } else if (teleport2) {
+        return main_REPACK2(region_filename);
+    }
+
 }
 

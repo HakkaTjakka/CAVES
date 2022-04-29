@@ -54,6 +54,38 @@ extern int remove_block_entities;
 extern int MCEDITOR_running;
 extern int MCEDITOR_stop;
 extern bool create_path;
+extern int main_REPACK2(char* region_filename);
+extern int region_xxx_glob;
+extern int region_zzz_glob;
+extern bool fix;
+extern bool teleport;
+extern bool teleport2;
+
+struct Chunk_struct
+{
+    int x, z, y;
+    int avg_x, avg_y, avg_z;
+    int dynamite, air;
+};
+
+struct Fly_struct
+{
+    float x, z, y;
+    float pitch, yaw, tilt, FOV;
+};
+
+extern int x_chunk,y_chunk,z_chunk;
+extern int x_chunk_sub,y_chunk_sub,z_chunk_sub;
+
+extern bool compareChunk(const Chunk_struct &A, const Chunk_struct &B);
+
+
+
+
+
+
+
+
 
 
 
